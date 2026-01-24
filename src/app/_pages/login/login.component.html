@@ -1,0 +1,126 @@
+<div class="container-fluid login-wrapper">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-md-auto px-md-0">
+            <div class="login-content-wrapper">
+                <div class="login-logo">
+                    <img src="../../../assets/images/smartwaytechnoway-logo-full.png"
+                        class="img-fluid login-logo-filter " alt="Logo">
+                </div>
+                <div class="flex-grow-1 login-content-body">
+                    <div class="login-content">
+                        <div class="login-text-wrap text-center">
+                            <h3 class="welcome-text text-blue">Welcome Back!</h3>
+                            <p class="welcome-sub-text">Enter to get unlimited access to data & information</p>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group-label">Email</div>
+                            <div class="fg-right-icon">
+                                <input type="text" class="form-control form-control-xl" placeholder="Enter Your Email"
+                                    autocomplete="off">
+                                <div class="form-right-icon cursor-pointer">
+                                    <i class="icon-dc-user"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group-label">Password</div>
+                            <div class="fg-right-icon">
+                                <input type="password" class="form-control form-control-xl"
+                                    placeholder="Enter Your Password" autocomplete="off">
+                                <div class="form-right-icon cursor-pointer pt-1">
+                                    <i class="icon-dc-eye-unslash font-17"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="checkDefault">
+                                    <label class="form-check-label" for="checkDefault">Remember me </label>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-6 text-md-end">
+                                <a href="javascript:void(0)" class="btn btn-link p-0">Forgot Password?</a>
+                            </div> -->
+                        </div>
+                        <div class="pt-0">
+                            <!-- <a routerLink="recipes">Recipes</a> -->
+                            <a [routerLink]="['/dashboard']" class="btn btn-primary btn-xl w-100">Login</a>
+                        </div>
+                    </div>
+                    <div class="forgot-password-content d-none">
+                        <div class="login-text-wrap text-center">
+                            <h3 class="welcome-text">Forgot Password?</h3>
+                            <p class="welcome-sub-text">No worries, we'll send you reset instructions.</p>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group-label font-14">User Email<span class="required-field-star">*</span>
+                            </div>
+                            <div class="position-relative">
+                                <input type="text" class="form-control form-control-lg font-14"
+                                    placeholder="Enter Your User Email">
+                            </div>
+                        </div>
+                        <div class="pt-2">
+                            <a [routerLink]="['/dashboard']" class="btn btn-primary btn-xl w-100">Send</a>
+                        </div>
+                    </div>
+                    <div class="set-password-content d-none">
+                        <div class="login-text-wrap text-center">
+                            <h3 class="welcome-text">Set Password</h3>
+                            <p class="welcome-sub-text">No worries, we'll send you reset instructions.</p>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group-label font-14">User Email<span class="required-field-star">*</span>
+                            </div>
+                            <div class="position-relative">
+                                <input type="text" class="form-control form-control-lg font-14"
+                                    placeholder="Enter Your User Email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group-label font-14">New Password<span class="required-field-star">*</span>
+                            </div>
+                            <div class="position-relative">
+                                <input type="password" class="form-control form-control-lg font-14"
+                                    placeholder="Enter Your New Password">
+                                <div class="form-right-icon">
+                                    <button type="button" class="btn btn-link-hover min-width-auto">
+                                        <i class="far fa-eye-slash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group-label font-14">Re-Type New Password<span
+                                    class="required-field-star">*</span></div>
+                            <div class="position-relative">
+                                <input type="password" class="form-control form-control-lg font-14"
+                                    placeholder="Enter Your Confirm Password">
+                                <div class="form-right-icon">
+                                    <button type="button" class="btn btn-link-hover min-width-auto">
+                                        <i class="far fa-eye-slash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-2">
+                            <a [routerLink]="['/dashboard']" class="btn btn-primary btn-xl w-100">Save</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- add Loader By Aatif Jariwala ON 16-12-2024 start-->
+<div class="loader-container d-none" id="loader">
+    <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="spiral-loader">
+            <div class="spiral-outer"></div>
+            <div class="spiral-inner"></div>
+        </div>
+    </div>
+</div>
+<!-- add Loader By Aatif Jariwala ON 16-12-2024 end-->

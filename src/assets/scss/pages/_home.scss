@@ -1,0 +1,159 @@
+@use "../abstracts/mixins" as *;
+
+/*HomepageV2 Header CSS Start */
+.full-header-main {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    border-bottom: 1px solid color-mix(in srgb, var(--bs-border-color) 10%, transparent);
+}
+
+.homepage-logo-wrap {
+    padding-block: 12px 12px;
+}
+
+.logo-mx-width {
+    max-width: var(--logo-max-width);
+}
+
+.nav-list-wrapper {
+    position: relative;
+
+    .nav-list-flex {
+        position: relative;
+        display: flex;
+
+        .nav-list-links {
+            position: relative;
+
+            .nav-list-link-item {
+                color: var(--text-dark-emphasis);
+                font-size: var(--font-size-16);
+                font-weight: var(--font-regular);
+                display: block;
+                position: relative;
+                margin-inline-end: 48px;
+                padding-block: 28px 28px;
+                padding-inline: 0 0;
+                line-height: normal;
+
+                &:hover {
+                    color: var(--text-white);
+                }
+            }
+        }
+
+        .nav-list-icn {
+            .nav-list-icn-item {
+                color: var(--text-dark-emphasis);
+                padding-block: 10px 10px;
+                padding-inline: 5px 10px;
+
+                &:hover {
+                    color: var(--text-white);
+                }
+            }
+
+            .dropdown-hover {
+                color: var(--text-dark-emphasis);
+
+
+                &:hover {
+                    .nav-list-icn-item {
+                        color: var(--text-white);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.hero-section-wrap {
+    .hero-section-inner {
+        background-color: var(--bg-primary);
+        position: relative;
+        background-image: url('/assets/images/hero-bg-circle-full.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin-block-start: -104px;
+        padding-block-start: 104px;
+
+        .hero-sec-text-lrg {
+            font-weight: var(--font-semibold);
+            color: var(--text-white);
+            padding-block: 48px 20px;
+            padding-inline: 0 0;
+            font-size: 38px;
+            margin-block: 0 5px;
+            margin-inline: 0 0;
+        }
+
+        .hero-sec-text-text-typing {
+            color: var(--text-white);
+            font-size: var(--font-size-16);
+            font-weight: var(--font-regular);
+            margin: 0;
+            padding-block-end: 24px;
+        }
+
+        .hero-sec-btn {
+            margin-block-end: 48px;
+        }
+    }
+}
+
+.hero-sec-wrap {
+    margin-bottom: -160px;
+}
+
+.hero-sec-laptop-screen {
+    text-align: center;
+
+    img {
+        max-width: 85.5%;
+    }
+}
+
+.hero-sec-img-small-left {
+    position: absolute;
+    max-width: 265px;
+    left: 0;
+    top: 9%;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.hero-sec-img-small-right {
+    position: absolute;
+    max-width: 250px;
+    right: 0;
+    top: 4%;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.notification-dropdown-main {
+    min-width: 438px;
+    padding-inline: 10px 10px;
+
+    .notification-ddl-heading {
+        font-size: var(--font-size-16);
+        font-weight: var(--font-semibold);
+        border-bottom: 1px solid var(--bs-border-color);
+        padding-block: 10px 10px;
+        padding-inline: 0 0;
+    }
+
+    .notification-ddl-body {
+        padding-block: 10px 10px;
+        padding-inline: 0 0;
+    }
+
+    .notification-ddl-footer {
+        border-top: 1px solid var(--bs-border-color);
+        text-align: right;
+        padding-block: 10px 10px;
+        padding-inline: 0 0;
+    }
+}

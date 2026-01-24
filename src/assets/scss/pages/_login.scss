@@ -1,0 +1,132 @@
+@use "../abstracts/mixins" as *;
+
+.login-wrapper {
+    position: relative;
+    padding-block: 6%;
+
+    &::before {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        inset: 0 0 0 0;
+        background-image: url('../../images/logo-backgradund-pattern.svg');
+        background-size: 100%;
+        background-attachment: fixed;
+        opacity: 0.04;
+
+    }
+}
+
+.login-content-wrapper {
+    position: relative;
+    max-width: 100%;
+    width: 550px;
+    margin-top: 50px;
+}
+
+.login-logo {
+    text-align: center;
+    margin-bottom: 25px;
+
+    img {
+        width: 200px;
+    }
+}
+
+.login-content-body {
+    background-color: var(--white);
+    padding: 45px 75px;
+    border-radius: 18px;
+    overflow-y: auto;
+    box-shadow: 0px 3px 15px -1.5px #32324705;
+    box-shadow: 0px 2.25px 11.25px 0px #0000000A;
+
+
+}
+
+// .login-content-footer {
+//     padding: 0 35px 0 35px;
+// }
+
+.login-text-wrap {
+
+    .welcome-text {
+        // color: $midnight-900;
+        font-size: var(--font-size-24);
+        font-weight: var(--font-black);
+        margin-bottom: 10px;
+    }
+
+    .welcome-sub-text {
+        color: var(--text-secondary);
+        font-size: var(--font-size-14);
+        margin-bottom: 30px;
+    }
+}
+
+.login-or-text {
+    position: relative;
+    // color: $midnight-800;
+    text-align: center;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        // background: $midnight-300;
+        height: 1px;
+        padding: 0 10px;
+    }
+
+    span {
+        position: relative;
+        z-index: 1;
+        background-color: var(--white);
+        padding: 0 5px;
+    }
+}
+
+.login-content-footer {
+    // color: $midnight-700;
+    margin-top: 12px;
+}
+
+.login-terms-condition {
+    list-style-type: none;
+    padding: 8px 0 15px 0;
+    margin: 0;
+}
+
+// .login-logo-filter {
+//     filter: grayscale(100) brightness(10);
+// }
+
+@media screen and (max-width: 991px) {
+    .login-wrapper {
+        background-size: cover;
+    }
+
+    .login-content-wrapper {
+        margin: 0 auto;
+
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .login-content-body {
+        height: auto;
+        width: auto;
+        margin: 0 auto;
+        padding: 30px 30px 40px 30px;
+        overflow: unset;
+    }
+
+    .login-logo {
+        img {
+            width: 200px;
+        }
+    }
+
+}

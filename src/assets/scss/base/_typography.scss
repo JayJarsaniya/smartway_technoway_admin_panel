@@ -1,0 +1,224 @@
+@use "../abstracts/mixins" as *;
+
+a {
+    text-decoration: none !important;
+    outline: 0;
+    transition: all .3s;
+}
+
+h1,
+.heading-xxxl {
+    font-size: 38px;
+    font-weight: 600;
+    margin-block-end: 8px;
+    line-height: 46px;
+}
+
+h2,
+.heading-xxl {
+    font-size: 28px;
+    font-weight: 600;
+    margin-block-end: 8px;
+    line-height: 33px;
+}
+
+h3,
+.heading-xl {
+    font-size: 20px;
+    font-weight: 600;
+    margin-block-end: 8px;
+    line-height: 24px;
+}
+
+h4,
+.heading-l {
+    font-size: 18px;
+    font-weight: 500;
+    margin-block-end: 8px;
+    line-height: 22px;
+}
+
+h5,
+.heading-m {
+    font-size: 16px;
+    font-weight: 500;
+    margin-block-end: 8px;
+    line-height: 19px;
+}
+
+h6,
+.heading-s {
+    font-size: 14px;
+    font-weight: 500;
+    margin-block-end: 8px;
+    line-height: 17px;
+}
+
+.font-12 {
+    font-size: var(--font-size-12) !important;
+}
+
+.font-13 {
+    font-size: var(--font-size-13) !important;
+}
+
+.font-14 {
+    font-size: var(--font-size-14) !important;
+}
+
+.font-15 {
+    font-size: var(--font-size-15) !important;
+}
+
+.font-16 {
+    font-size: var(--font-size-16) !important;
+}
+
+.font-17 {
+    font-size: var(--font-size-17) !important;
+}
+
+.font-18 {
+    font-size: var(--font-size-18) !important;
+}
+
+.heading-xs {
+    font-size: 13px;
+    font-weight: 500;
+    margin-block-end: 6px;
+    line-height: 15px;
+}
+
+.body-text-xxl {
+    font-size: 16px;
+    line-height: 28px;
+}
+
+.body-text-xl {
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.body-text-lg {
+    font-size: 13px;
+    line-height: 22px;
+}
+
+.body-text-md {
+    font-size: 13px;
+    line-height: 22px;
+}
+
+.body-text-sm {
+    font-size: 13px;
+    line-height: 22px;
+}
+
+.body-text-xs {
+    font-size: 13px;
+    line-height: 22px;
+}
+
+.link-l {
+    @include link_focus_underline();
+    color: var(--text-link);
+    font-size: var(--font-size-16);
+}
+
+.link-m {
+    @include link_focus_underline();
+    color: var(--text-link);
+    font-size: var(--font-size-14);
+}
+
+.link-s {
+    @include link_focus_underline();
+    color: var(--text-link);
+    font-size: var(--font-size-13);
+}
+
+.link-l-strong {
+    @include link_focus_underline();
+    color: var(--text-link);
+    font-size: var(--font-size-16);
+    font-weight: var(--font-medium);
+}
+
+.link-m-strong {
+    @include link_focus_underline();
+    color: var(--text-link);
+    font-size: var(--font-size-14);
+    font-weight: var(--font-medium);
+}
+
+.link-s-strong {
+    @include link_focus_underline();
+    color: var(--text-link);
+    font-size: var(--font-size-13);
+    font-weight: var(--font-medium);
+}
+
+.link-l-mphasis {
+    @include link_focus_underline();
+    color: var(--text-link);
+    font-size: var(--font-size-16);
+    font-style: italic;
+}
+
+.link-m-mphasis {
+    @include link_focus_underline();
+    color: var(--text-link);
+    font-size: var(--font-size-14);
+    font-style: italic;
+}
+
+.link-s-mphasis {
+    @include link_focus_underline();
+    color: var(--text-link);
+    font-size: var(--font-size-13);
+    font-style: italic;
+}
+
+.link-l-strong-emphasis {
+    @include link_focus_underline();
+    color: var(--text-link);
+    font-size: var(--font-size-16);
+    font-weight: var(--font-medium);
+    font-style: italic;
+}
+
+.link-m-strong-emphasis {
+    @include link_focus_underline();
+    color: var(--text-link);
+    font-size: var(--font-size-14);
+    font-weight: var(--font-medium);
+    font-style: italic;
+}
+
+.link-s-strong-emphasis {
+    @include link_focus_underline();
+    color: var(--text-link);
+    font-size: var(--font-size-13);
+    font-weight: var(--font-medium);
+    font-style: italic;
+}
+
+.text-blue {
+    color: var(--text-link);
+}
+
+.text-primary-emphasis {
+    color: var(--text-primary-subtle) !important;
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
+.text-danger {
+    color: var(--text-danger-light) !important;
+}
+
+.td-zIndex {
+    z-index: 10 !important;
+}

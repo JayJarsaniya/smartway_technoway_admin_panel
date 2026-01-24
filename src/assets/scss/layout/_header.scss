@@ -1,0 +1,60 @@
+@use "../abstracts/mixins" as *;
+
+.page-header-row {
+    position: relative;
+    // background: var(--bg-light-subtle);
+    padding-block: 9px 9px;
+    padding-inline: 0 0;
+    margin-block-end: 8px;
+    margin-inline: -24px -24px;
+    border-bottom: 0 solid var(--white);
+}
+
+.menu-hamburger-link {
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    box-shadow: none;
+    margin-block: 0;
+    margin-inline: 0;
+    padding: 0;
+    align-self: center;
+    height: 15px;
+    font-size: var(--font-size-16);
+    line-height: normal;
+    @include outline-style($OutlineOffset: 2px);
+
+    &:focus-visible {
+        border-radius: 2px;
+    }
+}
+
+.nav-header-action {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-block-end: 16px;
+
+    .nav-head-item {
+        +.nav-head-item {
+            margin-inline-start: 12px;
+        }
+    }
+}
+
+.header-right-action-item {
+    margin-inline-start: 10px;
+}
+
+.header-theme-change-icon {
+    min-width: 36px;
+    text-align: center;
+    font-size: var(--font-size-18) !important;
+}
+
+.user-profile-round-img {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+    border-radius: 50%;
+}

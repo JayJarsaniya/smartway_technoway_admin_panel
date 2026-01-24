@@ -1,0 +1,36 @@
+@use "../abstracts/mixins" as *;
+
+.scroll-light-hover {
+    @include scroll_light_on_hover_effect();
+}
+
+.scroll-light {
+    @include scroll_light_effect();
+}
+
+.light-simplebar-scroll {
+    width: 100%;
+    overflow: auto;
+
+    .simplebar-content-wrapper {
+        outline: none !important;
+    }
+
+    .simplebar-track {
+        &.simplebar-horizontal {
+            height: 6px;
+
+            .simplebar-scrollbar {
+                &::before {
+                    top: 0;
+                    bottom: 0;
+                    left: 1px;
+                    right: 1px;
+                    height: 5px !important;
+                    background-color: var(--scollbar-thumb);
+                    border-radius: 10px;
+                }
+            }
+        }
+    }
+}

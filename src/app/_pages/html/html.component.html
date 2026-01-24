@@ -1,0 +1,81 @@
+<div class="content">
+    <div class="content-page-main">
+        <h3>Single Drop Down</h3>
+        <ng-select class="customselect" [clearable]="false" [(ngModel)]="DopdownListIdSingle" name="Data"
+            placeholder="Select Data" [required]="true">
+            <ng-option *ngFor="let SCL of Dopdown_List" [value]="SCL.value">{{SCL.label}}</ng-option>
+        </ng-select>
+        <br>
+
+        <h3>Multiple Drop Down</h3>
+        <ng-select class="customselect" [clearable]="false" [(ngModel)]="DopdownListIdMuultiple" name="Data"
+            [multiple]="true" placeholder="Select Data" [required]="true">
+            <ng-option *ngFor="let SCL of Dopdown_List" [value]="SCL.value">{{SCL.label}}</ng-option>
+        </ng-select>
+        <br>
+
+        <h3>CKEDITOR</h3>
+        <!-- <ckeditor [editor]="Editor" data="<p>Hello, world!</p>"></ckeditor> -->
+        <angular-editor [placeholder]="'Enter text here...'" [(ngModel)]="htmlContent"></angular-editor>
+        <br>
+     
+        <h3>Datepicker</h3>
+        <input 
+            [(bsValue)]="dateRange1" 
+            autocomplete="off" 
+            class="form-control" 
+            name="Registration_Date"
+            placeholder="Select Date" 
+            [bsConfig]="datepickerConfig1" 
+            bsDaterangepicker
+        >
+        <br>
+        <br>
+
+        <h3>Bar Chart</h3>
+        <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+            <canvas #barChartCanvas id="Barchart"></canvas>
+        </div>
+        
+        <br>
+        <br>
+        <br>
+
+        <h3>Horizontal Bar Chart</h3>
+        <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+            <canvas id="HorizontalBarchart"></canvas>
+        </div>
+        
+        <br>
+        <br>
+        <br>
+
+
+        <h3>Doughnut Chart</h3>
+        <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+            <canvas id="Doughnutchart"></canvas>
+        </div> 
+
+        <br>
+        <br>
+        <br>
+
+
+        
+        <h3>Line Chart</h3>
+        <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+            <canvas id="Linechart"></canvas>
+        </div> 
+
+        <br>
+        <br>
+        <br>
+
+        <h3>Area Chart</h3>
+        <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+            <canvas id="Areachart"></canvas>
+        </div>
+        <br>
+        <br>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+
+@Component({
+  selector: 'app-review-list',
+  templateUrl: './review-list.component.html',
+  styleUrls: ['./review-list.component.scss']
+})
+export class ReviewListComponent implements OnInit {
+
+  origin: string = location.origin
+
+  SelectOption: any = []
+  SelectOption1 = [
+    {
+      value: 1,
+      label: 'Option 1'
+    },
+    {
+      value: 2,
+      label: 'Option 2'
+    }
+  ];
+
+  datepickerConfig1: any = <BsDatepickerConfig>{ containerClass: '', dateInputFormat: 'DD/MM/ YYYY', adaptivePosition: true, showWeekNumbers: false };
+
+  dateRange1: any = Date
+
+  onOpenCalendar(container: any) {
+    console.log(container);
+    container.monthSelectHandler = (event: any): void => {
+      container._store.dispatch(container._actions.select(event.date));
+    }
+    container.setViewMode('month');
+  }
+
+  onDateChange(event: any): void {
+    // console.log('Start Date changed:', event);
+  }
+
+  //For datepicker Code End
+
+  constructor(
+    private dtpicker: BsDatepickerConfig
+  ) { }
+
+
+  ngOnInit(): void {
+  }
+
+}

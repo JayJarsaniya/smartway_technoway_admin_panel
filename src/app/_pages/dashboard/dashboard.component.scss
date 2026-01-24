@@ -1,0 +1,12 @@
+.card-inner-crd {
+    padding: 10px 14px;
+    border-radius: 6px;
+
+    &.card-inner-gray {
+        background-color: rgba(19, 98, 179, 0.08);
+    }
+
+    &.card-inner-light-pink {
+        background-color: rgba(189, 17, 127, 0.08);
+    }
+}

@@ -1,0 +1,211 @@
+@use "../abstracts/mixins" as *;
+
+.accordion-card {
+    .accordion-body {
+        color: var(--text-primary-subtle);
+        padding-block: 24px;
+        padding-inline: 24px;
+    }
+
+    .accordion-item {
+        .accordion-header {
+            .accordion-button {
+                word-break: break-all;
+            }
+        }
+    }
+
+    &.accordion-gray-card {
+        position: relative;
+
+        .accordion-item {
+            background: var(--white);
+            border: 1px solid var(--border-primary-subtle);
+            position: relative;
+            margin-block-end: 16px;
+            border-radius: 8px;
+            // overflow: hidden;
+
+            .accordion-header {
+                .accordion-button {
+                    font-weight: var(--font-medium);
+                    font-size: var(--font-size-14);
+                    background-color: var(--bg-light-subtle);
+                    position: relative;
+                    box-shadow: none;
+                    text-decoration: none;
+                    padding-block: 11px 11px;
+                    padding-inline: 16px 12px;
+                    line-height: normal;
+                    border-radius: 7px 7px 0 0;
+
+                    &.collapsed {
+                        border-radius: 7px;
+                        transition: color 0.15s ease-in-out,
+                            background-color 0.15s ease-in-out,
+                            border-color 0.15s ease-in-out,
+                            box-shadow 0.15s ease-in-out,
+                            border-radius 0.15s ease;
+                    }
+
+                    &::after {
+                        background-color: var(--white);
+                        border: 1px solid var(--border-primary-subtle);
+                        width: 26px;
+                        height: 26px;
+                        border-radius: 50%;
+                        background-image: url('data:image/svg+xml,<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><style>.a{fill:none;stroke:%23395267;stroke-linecap:round;stroke-linejoin:round;stroke-width:2}</style><path class="a" d="m2 5l6 6 6-6"/></svg>');
+                        background-size: 50% 50%;
+                        background-position: 50% 55%;
+                    }
+
+                    &:focus-visible {
+                        @include outline-style();
+                    }
+
+                    // &:not(.collapsed) {
+                    //     &::after {
+                    //         background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="%23122836" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5L8 11L14 5"/></svg>');
+                    //     }
+                    // }
+
+                    &.accordion-plus-icn {
+
+                        &::after {
+                            content: '\f068';
+                            font-family: "Font Awesome 5 Pro";
+                            background-color: var(--white);
+                            border: 2px solid #1362B3;
+                            width: 26px;
+                            height: 26px;
+                            border-radius: 50%;
+                            background-image: none;
+                            background-size: unset;
+                            background-position: unset;
+                            transform: none;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            color: #1362B3;
+                        }
+
+                        &.collapsed {
+                            &::after {
+                                content: '\f067';
+                                font-family: "Font Awesome 5 Pro";
+                            }
+                        }
+                    }
+                }
+            }
+
+            .accordion-collapse {
+                box-shadow: 0px 5px 10px color-mix(in srgb, var(--bg-primary) 6%, transparent);
+                position: relative;
+                border-bottom-left-radius: 8px;
+                border-bottom-right-radius: 8px;
+
+                &::before {
+                    content: '';
+                    border-top: 1px solid var(--border-primary-subtle);
+                    width: 100%;
+                    display: block;
+                    position: absolute;
+                    top: 0;
+                    z-index: 0;
+                }
+            }
+        }
+    }
+
+    &.accordion-transparent-card {
+        position: relative;
+
+        .accordion-item {
+            background: var(--white);
+            position: relative;
+            border-radius: 0;
+            border: 0;
+            // overflow: hidden;
+
+            .accordion-header {
+                border-bottom: 1px solid var(--border-primary-subtle);
+
+                .accordion-button {
+                    font-weight: var(--font-medium);
+                    font-size: var(--font-size-14);
+                    background-color: var(--white);
+                    color: var(--text-primary-subtle);
+                    position: relative;
+                    box-shadow: none;
+                    text-decoration: none;
+                    padding-block: 11px;
+                    padding-inline: 0;
+                    line-height: normal;
+                    border-radius: 6px;
+
+                    &::after {
+                        width: 26px;
+                        height: 26px;
+                        background-image: url('data:image/svg+xml,<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><style>.a{fill:none;stroke:%23395267;stroke-linecap:round;stroke-linejoin:round;stroke-width:2}</style><path class="a" d="m2 5l6 6 6-6"/></svg>');
+                        background-size: 50% 50%;
+                        background-position: 50% 55%;
+                        border: 1px solid transparent;
+                    }
+
+                    &:not(.collapsed) {
+                        color: var(--text-link);
+
+                        &::after {
+                            // background-image: url('data:image/svg+xml,<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><style>.a{fill:none;stroke:%23395267;stroke-linecap:round;stroke-linejoin:round;stroke-width:2}</style><path class="a" d="m2 5l6 6 6-6"/></svg>');
+                            background-image: url('data:image/svg+xml,<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><style>.a{fill:none;stroke:%230067ed;stroke-linecap:round;stroke-linejoin:round;stroke-width:2}</style><path class="a" d="m2 5l6 6 6-6"/></svg>');
+                        }
+                    }
+
+                    &:focus-visible {
+                        @include outline-style();
+                    }
+                }
+            }
+
+            .accordion-collapse {
+                .accordion-body {
+                    padding-inline: 0;
+                }
+            }
+        }
+
+        &.accordion-content-group {
+            .accordion-item {
+                .accordion-body {
+                    padding-block-end: 0;
+                }
+            }
+        }
+    }
+
+    &.nested-accordion-wrap {
+        .accordion-body {
+            padding-block-start: 1px;
+        }
+
+        .accordion-transparent-card {
+            .accordion-item {
+                margin-block-end: 0;
+
+                .accordion-collapse {
+                    box-shadow: none;
+
+                    &::before {
+                        display: none;
+                    }
+
+                    .accordion-body {
+                        padding-block-start: 16px;
+                    }
+                }
+            }
+        }
+    }
+
+}

@@ -1,0 +1,203 @@
+@use "abstracts/mixins" as *;
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    background: #F4F7FB;
+    font-family: var(--fonts-manrope);
+    color: var(--text-primary-subtle);
+    letter-spacing: 0.15px;
+    line-height: 1.5;
+    font-size: var(--font-size-14);
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    -ms-font-feature-settings: normal;
+    font-feature-settings: normal;
+    font-weight: 400;
+    overflow-x: hidden;
+}
+
+.loader-wrap {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+    img {
+        width: 250px;
+    }
+}
+
+/*Width Custom Class CSS Start*/
+.w-150 {
+    width: 150px !important;
+}
+
+.w-250 {
+    width: 250px !important;
+}
+
+.w-350 {
+    width: 350px !important;
+}
+
+.w-480 {
+    width: 480px !important;
+}
+
+
+/*Width Custom Class CSS End*/
+
+/*Min-Width Custom Class CSS Start*/
+.min-w-auto {
+    min-width: auto !important;
+}
+
+.min-w-220 {
+    min-width: 220px;
+}
+
+.min-w-290 {
+    min-width: 290px;
+}
+
+.min-w-300 {
+    min-width: 300px;
+}
+
+.min-w-160 {
+    min-width: 160px;
+}
+
+.min-w-330 {
+    min-width: 330px;
+}
+
+/*Min-Width Custom Class CSS End*/
+
+/*Max-Width Custom Class CSS Start*/
+.max-w-220 {
+    max-width: 220px;
+}
+
+.max-w-290 {
+    max-width: 290px;
+}
+
+.max-w-160 {
+    max-width: 160px;
+}
+
+.max-w-330 {
+    max-width: 330px;
+}
+
+.max-w-350 {
+    max-width: 350px;
+}
+
+/*Max-Width Custom Class CSS End*/
+/*Max-height Custom Class CSS Start*/
+
+.min-h-100vh {
+    min-height: 100vh !important;
+}
+
+.max-h-320 {
+    max-height: 320px;
+}
+
+.max-h-350 {
+    max-height: 350px;
+}
+
+/*Max-height Custom Class CSS End*/
+
+.main-content-wrapper {
+    position: relative;
+    min-height: 100%;
+    padding-inline: 12px 12px;
+    transition: all 0.3s;
+
+}
+
+.page-content-wrap {
+    margin-inline-start: -12px;
+    margin-inline-end: -12px;
+    padding-inline: 24px 24px;
+    min-height: 100vh;
+    padding-block-start: 3px;
+}
+
+.bg-gray-box-effect {
+    background-color: var(--bg-light-subtle);
+}
+
+.no-data-avl-wrap {
+    height: calc(100vh - 300px);
+    display: flex;
+    align-items: center;
+}
+
+.no-data-avl-icon {
+    font-size: 50px;
+    margin-block-start: 10px;
+    margin-block-end: 0;
+    line-height: normal;
+}
+
+.page-access-orange-icon {
+    font-size: 30px;
+    margin-block-start: 10px;
+    margin-block-end: 5px;
+    line-height: normal;
+    color: var(--text-warning-subtle);
+}
+
+.no-data-available-text {
+    font-size: 48px;
+    font-weight: var(--font-semibold);
+    color: var(--text-warning-subtle);
+}
+
+.no-data-avl-msg {
+    color: var(--text-secondary);
+}
+
+.no-data-avl-side-slider {
+    min-height: calc(100vh - 175px);
+}
+
+.card-testimonial-height {
+    height: 258px;
+}
+
+.testimonial-comma-icon {
+    font-size: 60px;
+    line-height: 0;
+    opacity: 0.3;
+}
+
+.uikit-badge {
+    font-weight: var(--font-bold);
+    font-style: italic;
+}
+
+.backdrop {
+    background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    inset: 0;
+    z-index: 35;
+}

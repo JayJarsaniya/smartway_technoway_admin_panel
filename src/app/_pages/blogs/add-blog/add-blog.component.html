@@ -1,0 +1,110 @@
+<div class="row align-items-center justify-content-between">
+    <div class="col-auto">
+        <div class="page-header-name">Blogs List</div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="row card-header-inner">
+                    <div class="col">
+                        <div class="heading-xxl font-17 m-0">Blog Details</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <div class="form-group-label">Blog Title<span class="required-field-star">*</span></div>
+                            <input type="text" class="form-control" placeholder="Enter Blog Title" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <div class="form-group-label">Blog Categories<span class="required-field-star">*</span>
+                            </div>
+                            <ng-select class="ng-select-custom" [clearable]="false" [(ngModel)]="SelectOption_2"
+                                [multiple]="true" name="SelectOption2" placeholder="Select Blog Categories">
+                                <ng-option *ngFor="let BT of SelectOption2" [value]="BT.value">{{BT.label}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <div class="form-group-label">Blog Tags<span class="required-field-star">*</span></div>
+                            <ng-select class="ng-select-custom" [clearable]="false" [(ngModel)]="SelectOption"
+                                [multiple]="true" name="SelectOption2" placeholder="Select Blog Tags">
+                                <ng-option *ngFor="let BT of SelectOption1" [value]="BT.value">{{BT.label}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <div class="form-group-label">Author Name<span class="required-field-star">*</span></div>
+                            <input type="text" class="form-control" placeholder="Enter Author Name" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <div class="form-group-label">Small Description<span class="required-field-star">*</span>
+                            </div>
+                            <textarea rows="5" class="form-control h-auto" placeholder="Enter Small Description"
+                                autocomplete="off"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <div class="form-group-label">Author Description<span class="required-field-star">*</span>
+                            </div>
+                            <textarea rows="5" class="form-control h-auto" placeholder="Enter Author Description"
+                                autocomplete="off"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <div class="form-group-label">Blog Description<span class="required-field-star">*</span>
+                            </div>
+                            <div class="w-100">
+                                <angular-editor [placeholder]="'Enter text here'"
+                                    [(ngModel)]="htmlContent"></angular-editor>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group-label">Blog Image<span class="required-field-star">(Icon Size
+                                1073*520)*</span></div>
+                    </div>
+                    <div class="col-12">
+                        <div class="uploader">
+                            <input id="file-upload" type="file" name="fileUpload" accept="image/*" />
+                            <label for="file-upload" id="file-drag">
+                                <img id="file-image" src="#" alt="Preview" class="hidden">
+                                <div id="start">
+                                    <i class="fal fa-cloud-upload-alt" aria-hidden="true"></i>
+                                    <div class="fw-bold">Upload a File</div>
+                                    <div>Drag and drop Files here</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row position-sticky bottom-0">
+    <div class="col-12 text-end">
+        <div class="bg-white p-2 border-top rounded">
+            <button type="button" class="btn btn-primary px-4 btn-xl">Save Changes</button>
+        </div>
+    </div>
+</div>
