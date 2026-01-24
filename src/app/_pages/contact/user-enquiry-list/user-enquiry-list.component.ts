@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-import { ContactService, Contact, ContactFilter } from '../../../services/contact.service';
+import { ContactService, Contact, ContactFilter, ContactResponse } from '../../../services/api';
 
 @Component({
   selector: 'app-user-enquiry-list',
@@ -93,14 +93,14 @@ export class UserEnquiryListComponent implements OnInit {
   loadContacts(): void {
     this.loading = true;
     this.contactService.getContacts(this.filter).subscribe({
-      next: (response) => {
+      next: (response: ContactResponse) => {
         if (response.success) {
           this.contacts = response.data;
           this.allContacts = response.data;
         }
         this.loading = false;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error loading contacts:', error);
         this.loading = false;
       }
