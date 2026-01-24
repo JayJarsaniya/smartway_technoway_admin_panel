@@ -5,12 +5,16 @@
     <div class="col-auto text-end">
         <div class="nav-header-action">
             <div class="nav-head-item">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddReviewPopup">
-                    <i class="icon-dc-plus btn-icon-left"></i> Add Review</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddReviewPopup"
+                    (click)="addNewTestimonial()">
+                    <i class="icon-dc-plus btn-icon-left"></i> Add Review
+                </button>
             </div>
             <div class="nav-head-item">
                 <button type="button" class="btn btn-light" data-bs-toggle="offcanvas" data-bs-target="#ReviewsFilter">
-                    <i class="icon-dc-filter btn-icon-left"></i> Filter</button>
+                    <i class="icon-dc-filter btn-icon-left"></i> Filter
+                    <span *ngIf="isFilterApplied" class="badge bg-primary ms-1">{{ activeFilterCount }}</span>
+                </button>
             </div>
         </div>
     </div>
@@ -24,363 +28,55 @@
                         <tr>
                             <th class="first-fixed-col" width="60">Action</th>
                             <th>Name</th>
-                            <th>Image</th>
-                            <th>Description </th>
+                            <th>Message</th>
                             <th>Designation</th>
-                            <th>Is Display</th>
+                            <th>Rating</th>
                             <th>Created Date</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#AddReviewPopup">
-                                            <i class="icon-dc-edit"></i>
-                                        </button>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
+                        <tr *ngIf="loading">
+                            <td colspan="6" class="text-center py-5">
+                                <img src="assets/images/loader.gif" alt="Loading..." style="width: 80px; height: 80px;">
                             </td>
-                            <td>Mitch White</td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>Mitch White</td>
-                            <td>
-                                <span class="badge badge-green">Yes</span>
-                            </td>
-                            <td>28 March 2025 04:10:24 PM</td>
                         </tr>
-                        <tr>
+                        <tr *ngFor="let testimonial of testimonials" [hidden]="loading">
                             <td class="first-fixed-col">
                                 <ul class="actions-wrap actions-style-1">
                                     <li class="actions-item">
                                         <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#AddReviewPopup">
+                                            data-bs-toggle="modal" data-bs-target="#AddReviewPopup"
+                                            (click)="editTestimonial(testimonial)">
                                             <i class="icon-dc-edit"></i>
                                         </button>
                                     </li>
                                     <li class="actions-item">
                                         <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
+                                            data-bs-toggle="modal" data-bs-target="#DeleteModal"
+                                            (click)="deleteTestimonial(testimonial)">
                                             <i class="icon-dc-delete"></i>
                                         </button>
                                     </li>
                                 </ul>
                             </td>
-                            <td>Mitch White</td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
+                            <td>{{ testimonial.name }}</td>
                             <td>
                                 <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
+                                    {{ truncateText(testimonial.message, 50) }}
                                 </div>
                             </td>
-                            <td>Mitch White</td>
+                            <td>{{ testimonial.designation }}</td>
                             <td>
-                                <span class="badge badge-red">No</span>
+                                <div class="d-flex align-items-center">
+                                    <span *ngFor="let star of getStars(testimonial.rating)" 
+                                        [class]="star === '★' ? 'text-warning' : 'text-muted'">{{ star }}</span>
+                                    <span class="ms-1">({{ testimonial.rating }})</span>
+                                </div>
                             </td>
-                            <td>28 March 2025 04:10:24 PM</td>
+                            <td>{{ formatDate(testimonial.createdAt) }}</td>
                         </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#AddReviewPopup">
-                                            <i class="icon-dc-edit"></i>
-                                        </button>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Mitch White</td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>Mitch White</td>
-                            <td>
-                                <span class="badge badge-green">Yes</span>
-                            </td>
-                            <td>28 March 2025 04:10:24 PM</td>
-                        </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#AddReviewPopup">
-                                            <i class="icon-dc-edit"></i>
-                                        </button>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Mitch White</td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>Mitch White</td>
-                            <td>
-                                <span class="badge badge-red">No</span>
-                            </td>
-                            <td>28 March 2025 04:10:24 PM</td>
-                        </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#AddReviewPopup">
-                                            <i class="icon-dc-edit"></i>
-                                        </button>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Mitch White</td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>Mitch White</td>
-                            <td>
-                                <span class="badge badge-green">Yes</span>
-                            </td>
-                            <td>28 March 2025 04:10:24 PM</td>
-                        </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#AddReviewPopup">
-                                            <i class="icon-dc-edit"></i>
-                                        </button>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Mitch White</td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>Mitch White</td>
-                            <td>
-                                <span class="badge badge-red">No</span>
-                            </td>
-                            <td>28 March 2025 04:10:24 PM</td>
-                        </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#AddReviewPopup">
-                                            <i class="icon-dc-edit"></i>
-                                        </button>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Mitch White</td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>Mitch White</td>
-                            <td>
-                                <span class="badge badge-green">Yes</span>
-                            </td>
-                            <td>28 March 2025 04:10:24 PM</td>
-                        </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#AddReviewPopup">
-                                            <i class="icon-dc-edit"></i>
-                                        </button>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Mitch White</td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>Mitch White</td>
-                            <td>
-                                <span class="badge badge-red">No</span>
-                            </td>
-                            <td>28 March 2025 04:10:24 PM</td>
-                        </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#AddReviewPopup">
-                                            <i class="icon-dc-edit"></i>
-                                        </button>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Mitch White</td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>Mitch White</td>
-                            <td>
-                                <span class="badge badge-green">Yes</span>
-                            </td>
-                            <td>28 March 2025 04:10:24 PM</td>
-                        </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#AddReviewPopup">
-                                            <i class="icon-dc-edit"></i>
-                                        </button>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Mitch White</td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>Mitch White</td>
-                            <td>
-                                <span class="badge badge-green">Yes</span>
-                            </td>
-                            <td>28 March 2025 04:10:24 PM</td>
+                        <tr *ngIf="!loading && testimonials.length === 0">
+                            <td colspan="6" class="text-center">No testimonials found</td>
                         </tr>
                     </tbody>
                 </table>
@@ -390,116 +86,66 @@
     <div class="col-12">
         <div class="row align-items-center">
             <div class="col-md-12 col-lg-4">
-                <div class="text-center text-lg-start py-3">Showing 1 to 20 of 500 Entries</div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div
-                    class="d-flex align-items-center justify-content-center justify-content-md-start justify-content-lg-center py-2">
-                    <div class="">Show</div>
-                    <div class="">
-                        <select>
-                            <option>25</option>
-                            <option>50</option>
-                            <option>75</option>
-                            <option>100</option>
-                        </select>
-                    </div>
-                    <div class="">Entries</div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <ul class="pagination justify-content-center justify-content-md-end">
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="icon-dc-caret-double-left"></i>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="icon-dc-caret-left"></i>
-                        </a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                    <li class="page-item"><a class="page-link" href="#">02</a></li>
-                    <li class="page-item"><a class="page-link" href="#">03</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="icon-dc-caret-right"></i>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="icon-dc-caret-double-right"></i>
-                        </a>
-                    </li>
-                </ul>
+                <div class="text-center text-lg-start py-3">Showing {{ testimonials.length }} Entries</div>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Add/Edit Review Modal -->
 <div class="modal fade" id="AddReviewPopup" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title">Add Review</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h1 class="modal-title">{{ isEditMode ? 'Edit Review' : 'Add Review' }}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-lg-5">
-                        <div class="uploader">
-                            <input id="file-upload" type="file" name="fileUpload" accept="image/*" />
-                            <label for="file-upload" id="file-drag">
-                                <img id="file-image" src="#" alt="Preview" class="hidden">
-                                <div class="file-upload-inner">
-                                    <i class="fal fa-cloud-upload-alt" aria-hidden="true"></i>
-                                    <div class="fw-bold">Upload a File</div>
-                                    <div>Drag and drop Files here</div>
-                                </div>
-                            </label>
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <div class="form-group-label">Name</div>
+                            <input type="text" class="form-control" [(ngModel)]="testimonialForm.name" placeholder="Enter Name">
                         </div>
                     </div>
-                    <div class="col-lg-7">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <div class="form-group-label">Name<span class="required-field-star">*</span>
-                                    </div>
-                                    <input type="text" class="form-control" placeholder="Enter Name">
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <div class="form-group-label">Description
-                                        <span class="required-field-star">*</span>
-                                    </div>
-                                    <textarea rows="3" class="form-control h-auto"
-                                        placeholder="Enter Description"></textarea>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <div class="form-group-label">Designation<span class="required-field-star">*</span>
-                                    </div>
-                                    <input type="text" class="form-control" placeholder="Enter Designation">
-                                </div>
-                            </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <div class="form-group-label">Designation</div>
+                            <input type="text" class="form-control" [(ngModel)]="testimonialForm.designation" placeholder="Enter Designation">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <div class="form-group-label">Rating</div>
+                            <select class="form-control" [(ngModel)]="testimonialForm.rating">
+                                <option [value]="1">1 Star</option>
+                                <option [value]="2">2 Stars</option>
+                                <option [value]="3">3 Stars</option>
+                                <option [value]="4">4 Stars</option>
+                                <option [value]="5">5 Stars</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <div class="form-group-label">Message</div>
+                            <textarea rows="4" class="form-control" [(ngModel)]="testimonialForm.message" placeholder="Enter Review Message"></textarea>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer justify-content-end pt-0">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Save</button>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal" (click)="resetForm()">Cancel</button>
+                <button type="button" class="btn btn-primary" (click)="saveTestimonial()" data-bs-dismiss="modal">{{ isEditMode ? 'Update' : 'Save' }}</button>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Filter Offcanvas -->
 <div class="offcanvas offcanvas-end filter-offcanvas floating-offcanvas" tabindex="-1" id="ReviewsFilter">
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasRightLabel">Filter</h5>
+        <h5 class="offcanvas-title">Filter Reviews</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
@@ -507,29 +153,26 @@
             <div class="col-12">
                 <div class="form-group">
                     <div class="form-group-label">Name</div>
-                    <input type="text" class="form-control" placeholder="Enter Name">
+                    <input type="text" class="form-control" placeholder="Enter Name" [(ngModel)]="filter.name">
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group">
-                    <div class="form-group-label">Is Display</div>
-                    <ng-select class="ng-select-custom" [clearable]="false" [(ngModel)]="SelectOption"
-                        name="SelectOption1" placeholder="Select Is Display">
-                        <ng-option *ngFor="let BT of SelectOption1" [value]="BT.value">{{BT.label}}</ng-option>
-                    </ng-select>
+                    <div class="form-group-label">Designation</div>
+                    <input type="text" class="form-control" placeholder="Enter Designation" [(ngModel)]="filter.designation">
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group">
-                    <div class="form-group-label">Created Date</div>
-                    <div class="position-relative">
-                        <input [(bsValue)]="dateRange1" autocomplete="off" class="form-control" name="Registration_Date"
-                            placeholder="Enter Created Date" [bsConfig]="datepickerConfig1"
-                            (bsValueChange)="onDateChange($event)" bsDaterangepicker>
-                        <div class="form-right-icon">
-                            <i class="icon-dc-calendar"></i>
-                        </div>
-                    </div>
+                    <div class="form-group-label">Rating</div>
+                    <select class="form-control" [(ngModel)]="filter.rating">
+                        <option [value]="undefined">All Ratings</option>
+                        <option [value]="1">1 Star</option>
+                        <option [value]="2">2 Stars</option>
+                        <option [value]="3">3 Stars</option>
+                        <option [value]="4">4 Stars</option>
+                        <option [value]="5">5 Stars</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -537,11 +180,90 @@
     <div class="offcanvas-footer">
         <div class="row">
             <div class="col-6">
-                <button type="button" class="btn btn-light w-100" data-bs-dismiss="offcanvas">Reset</button>
+                <button type="button" class="btn btn-light w-100" (click)="resetFilter()">Reset</button>
             </div>
             <div class="col-6">
-                <button type="button" class="btn btn-primary w-100" data-bs-dismiss="offcanvas">Submit</button>
+                <button type="button" class="btn btn-primary w-100" (click)="applyFilter()" data-bs-dismiss="offcanvas">Submit</button>
             </div>
         </div>
     </div>
 </div>
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="DeleteModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cancelDelete()"></button>
+            </div>
+            <div class="modal-body text-center pt-0">
+                <div class="mb-4">
+                    <i class="icon-dc-delete text-danger" style="font-size: 4rem;"></i>
+                </div>
+                <h4 class="mb-3">Delete Review</h4>
+                <p class="text-muted mb-4" *ngIf="testimonialToDelete">
+                    Are you sure you want to delete the review by <strong>{{ testimonialToDelete.name }}</strong>?<br>
+                    This action cannot be undone.
+                </p>
+            </div>
+            <div class="modal-footer border-0 justify-content-center">
+                <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal" (click)="cancelDelete()">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="confirmDelete()">
+                    <i class="icon-dc-delete me-1"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Custom Toast Notification -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+    <div *ngIf="toastMessage" 
+         class="toast show" 
+         [class.bg-success]="toastType === 'success'"
+         [class.bg-danger]="toastType === 'error'"
+         role="alert">
+        <div class="toast-header">
+            <i *ngIf="toastType === 'success'" class="icon-dc-check text-success me-2"></i>
+            <i *ngIf="toastType === 'error'" class="icon-dc-close text-danger me-2"></i>
+            <strong class="me-auto text-white">{{ toastType === 'success' ? 'Success' : 'Error' }}</strong>
+            <!-- <button type="button" class="btn-close btn-close-white" (click)="toastMessage = ''; toastType = ''"></button> -->
+        </div>
+        <div class="toast-body text-white">
+            {{ toastMessage }}
+        </div>
+    </div>
+</div>
+
+<style>
+.toast-container .toast {
+    min-width: 300px;
+    animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toast.bg-success {
+    background-color: #28a745 !important;
+    border-color: #28a745;
+}
+
+.toast.bg-danger {
+    background-color: #dc3545 !important;
+    border-color: #dc3545;
+}
+
+.toast-header {
+    background-color: rgba(0,0,0,0.1) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+</style>

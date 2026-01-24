@@ -129,3 +129,66 @@ export class JobService {
     return this.http.delete(`${this.apiUrl}/jobs/delete/${id}`);
   }
 }
+export interface Testimonial {
+  _id: string;
+  name: string;
+  designation: string;
+  message: string;
+  rating: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface TestimonialResponse {
+  success: boolean;
+  data: Testimonial[];
+}
+
+export interface TestimonialFilter {
+  name?: string;
+  designation?: string;
+  rating?: number;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TestimonialService {
+  private apiUrl = environment.apiUrl;
+
+  constructor(private http: HttpClient) { }
+
+  getTestimonials(filter?: TestimonialFilter): Observable<TestimonialResponse> {
+    return this.http.get<TestimonialResponse>(`${this.apiUrl}/testimonials`).pipe(
+      map((response: TestimonialResponse) => {
+        if (!filter || (!filter.name && !filter.designation && !filter.rating)) {
+          return response;
+        }
+        
+        const filteredData = response.data.filter(testimonial => {
+          const nameMatch = !filter.name || 
+            testimonial.name.toLowerCase().includes(filter.name.toLowerCase());
+          const designationMatch = !filter.designation || 
+            testimonial.designation.toLowerCase().includes(filter.designation.toLowerCase());
+          const ratingMatch = !filter.rating || testimonial.rating === filter.rating;
+          return nameMatch && designationMatch && ratingMatch;
+        });
+        
+        return { ...response, data: filteredData };
+      })
+    );
+  }
+
+  createTestimonial(testimonial: Partial<Testimonial>): Observable<any> {
+    return this.http.post(`${this.apiUrl}/testimonials/create`, testimonial);
+  }
+
+  updateTestimonial(id: string, testimonial: Partial<Testimonial>): Observable<any> {
+    return this.http.put(`${this.apiUrl}/testimonials/update/${id}`, testimonial);
+  }
+
+  deleteTestimonial(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/testimonials/delete/${id}`);
+  }
+}

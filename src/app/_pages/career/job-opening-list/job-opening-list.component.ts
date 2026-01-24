@@ -18,6 +18,9 @@ export class JobOpeningListComponent implements OnInit {
   jobForm: Partial<Job> = {};
   skillInput: string = '';
   responsibilityInput: string = '';
+  toastMessage: string = '';
+  toastType: 'success' | 'error' | '' = '';
+  jobToDelete: Job | null = null;
 
   get isFilterApplied(): boolean {
     return !!(this.filter.title || this.filter.location || this.filter.jobType);
@@ -93,7 +96,7 @@ export class JobOpeningListComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error loading jobs:', error);
+        this.showToast('Error loading jobs', 'error');
         this.loading = false;
       }
     });
@@ -108,17 +111,27 @@ export class JobOpeningListComponent implements OnInit {
     this.loadJobs();
   }
 
-  deleteJob(id: string): void {
-    if (confirm('Are you sure you want to delete this job?')) {
-      this.jobService.deleteJob(id).subscribe({
+  deleteJob(job: Job): void {
+    this.jobToDelete = job;
+  }
+
+  confirmDelete(): void {
+    if (this.jobToDelete) {
+      this.jobService.deleteJob(this.jobToDelete._id).subscribe({
         next: () => {
+          this.showToast('Job deleted successfully', 'success');
           this.loadJobs();
+          this.jobToDelete = null;
         },
         error: (error) => {
-          console.error('Error deleting job:', error);
+          this.showToast('Error deleting job', 'error');
         }
       });
     }
+  }
+
+  cancelDelete(): void {
+    this.jobToDelete = null;
   }
 
   viewJob(job: Job): void {
@@ -153,21 +166,23 @@ export class JobOpeningListComponent implements OnInit {
     if (this.isEditMode && this.selectedJob) {
       this.jobService.updateJob(this.selectedJob._id, this.jobForm).subscribe({
         next: () => {
+          this.showToast('Job updated successfully', 'success');
           this.loadJobs();
           this.resetForm();
         },
         error: (error) => {
-          console.error('Error updating job:', error);
+          this.showToast('Error updating job', 'error');
         }
       });
     } else {
       this.jobService.createJob(this.jobForm).subscribe({
         next: () => {
+          this.showToast('Job created successfully', 'success');
           this.loadJobs();
           this.resetForm();
         },
         error: (error) => {
-          console.error('Error creating job:', error);
+          this.showToast('Error creating job', 'error');
         }
       });
     }
@@ -220,6 +235,15 @@ export class JobOpeningListComponent implements OnInit {
 
   truncateText(text: string, limit: number = 50): string {
     return text.length > limit ? text.substring(0, limit) + '...' : text;
+  }
+
+  showToast(message: string, type: 'success' | 'error'): void {
+    this.toastMessage = message;
+    this.toastType = type;
+    setTimeout(() => {
+      this.toastMessage = '';
+      this.toastType = '';
+    }, 3000);
   }
 
 }
