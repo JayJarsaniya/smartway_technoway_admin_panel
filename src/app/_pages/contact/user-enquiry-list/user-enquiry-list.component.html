@@ -24,14 +24,13 @@
                             <th class="first-fixed-col" width="60">Action</th>
                             <th>Name</th>
                             <th>Email Id</th>
-                            <th>Company Name</th>
-                            <th>Subject</th>
+                            <th>Contact Number</th>
                             <th>Enquiry Date</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngIf="loading">
-                            <td colspan="6" class="text-center py-5">
+                            <td colspan="5" class="text-center py-5">
                                 <img src="assets/images/loader.gif" alt="Loading..." style="width: 80px; height: 80px;">
                             </td>
                         </tr>
@@ -48,12 +47,11 @@
                             </td>
                             <td>{{ contact.firstName }} {{ contact.lastName }}</td>
                             <td>{{ contact.email }}</td>
-                            <td>-</td>
-                            <td>Contact Enquiry</td>
+                            <td>{{ contact.phone }}</td>
                             <td>{{ formatDate(contact.createdAt) }}</td>
                         </tr>
                         <tr *ngIf="!loading && contacts.length === 0">
-                            <td colspan="6" class="text-center">No enquiries found</td>
+                            <td colspan="5" class="text-center">No enquiries found</td>
                         </tr>
                     </tbody>
                 </table>
