@@ -1,0 +1,79 @@
+<div class="row align-items-center justify-content-between">
+    <div class="col-auto">
+        <div class="page-header-name">{{ isEditMode ? 'Edit Skill' : 'Add Skill' }}</div>
+    </div>
+</div>
+
+<form (ngSubmit)="onSubmit()" #skillForm="ngForm">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-group-label">Skill Title *</label>
+                                <input type="text" class="form-control" [(ngModel)]="skill.title" 
+                                       name="title" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-group-label">Status *</label>
+                                <select class="form-control" [(ngModel)]="skill.status" name="status" required>
+                                    <option [value]="true">Active</option>
+                                    <option [value]="false">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-group-label">Skill Image *</label>
+                                <input type="file" class="form-control" (change)="onFileSelected($event)" 
+                                       accept="image/*" [required]="!isEditMode">
+                            </div>
+                        </div>
+                        <div class="col-md-6" *ngIf="isEditMode && skill.image">
+                            <div class="form-group">
+                                <label class="form-group-label">Current Image</label>
+                                <div class="mt-2">
+                                    <img [src]="skill.image" class="img-fluid" style="max-width: 100px; max-height: 100px;" alt="Current Skill Image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="text-end">
+                <button type="button" class="btn btn-light me-2" (click)="router.navigate(['/skills/skill-list'])">
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-primary" [disabled]="loading || !skillForm.valid">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                    {{ isEditMode ? 'Update Skill' : 'Create Skill' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- Toast Notification -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+    <div *ngIf="toastMessage" 
+         class="toast show" 
+         [class.bg-success]="toastType === 'success'"
+         [class.bg-danger]="toastType === 'error'"
+         role="alert">
+        <div class="toast-header">
+            <i *ngIf="toastType === 'success'" class="icon-dc-check text-success me-2"></i>
+            <i *ngIf="toastType === 'error'" class="icon-dc-close text-danger me-2"></i>
+            <strong class="me-auto text-white">{{ toastType === 'success' ? 'Success' : 'Error' }}</strong>
+        </div>
+        <div class="toast-body text-white">
+            {{ toastMessage }}
+        </div>
+    </div>
+</div>

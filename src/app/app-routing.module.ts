@@ -70,6 +70,14 @@ const routes: Routes = [
         loadChildren: () => import('./_pages/services/service-detail/service-detail.module').then(m => m.ServiceDetailModule) 
       },
       { 
+        path: 'skills/skill-list', 
+        loadChildren: () => import('./_pages/skills/skill-list/skill-list.module').then(m => m.SkillListModule) 
+      },
+      {
+        path: 'skills/add-skill', 
+        loadChildren: () => import('./_pages/skills/add-skill/add-skill.module').then(m => m.AddSkillModule) 
+      },
+      { 
         path: 'portfolio/portfolio-list', 
         loadChildren: () => import('./_pages/portfolio/portfolio-list/portfolio-list.module').then(m => m.PortfolioListModule) 
       },

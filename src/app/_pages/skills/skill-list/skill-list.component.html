@@ -1,0 +1,173 @@
+<div class="row align-items-center justify-content-between">
+    <div class="col-auto">
+        <div class="page-header-name">Skill List</div>
+    </div>
+    <div class="col-auto text-end">
+        <div class="nav-header-action">
+            <div class="nav-head-item">
+                <button type="button" class="btn btn-primary" (click)="addNewSkill()">
+                    <i class="icon-dc-plus btn-icon-left"></i> Add Skill
+                </button>
+            </div>
+            <div class="nav-head-item">
+                <button type="button" class="btn btn-light" data-bs-toggle="offcanvas" data-bs-target="#SkillListFilter">
+                    <i class="icon-dc-filter btn-icon-left"></i> Filter
+                    <span *ngIf="isFilterApplied" class="badge bg-primary ms-1">{{ activeFilterCount }}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card data-table table-card-rounded">
+            <div class="table-responsive scroll-light list-table-height-1">
+                <table class="table thead-fixed mb-0">
+                    <thead>
+                        <tr>
+                            <th class="first-fixed-col" width="60">Action</th>
+                            <th>Title</th>
+                            <th>Image</th>
+                            <th>Status</th>
+                            <th>Created Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="loading">
+                            <td colspan="5" class="text-center py-5">
+                                <img src="assets/images/loader.gif" alt="Loading..." style="width: 80px; height: 80px;">
+                            </td>
+                        </tr>
+                        <tr *ngFor="let skill of skills" [hidden]="loading">
+                            <td class="first-fixed-col">
+                                <ul class="actions-wrap actions-style-1">
+                                    <li class="actions-item">
+                                        <button type="button" class="btn btn-outline-primary action-btn-32" (click)="editSkill(skill)">
+                                            <i class="icon-dc-edit"></i>
+                                        </button>
+                                    </li>
+                                    <li class="actions-item">
+                                        <button type="button" class="btn btn-outline-primary action-btn-32"
+                                            data-bs-toggle="modal" data-bs-target="#DeleteSkillModal"
+                                            (click)="deleteSkill(skill)">
+                                            <i class="icon-dc-delete"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>{{ skill.title }}</td>
+                            <td>
+                                <div class="sub-image-wrap" *ngIf="skill.image">
+                                    <img [src]="skill.image" class="img-fluid sub-image-65" alt="Skill Image">
+                                </div>
+                            </td>
+                            <td>
+                                <button type="button" 
+                                    [class]="skill.status ? 'badge badge-green' : 'badge badge-red'">
+                                    {{ skill.status ? 'Active' : 'Inactive' }}
+                                </button>
+                            </td>
+                            <td>{{ formatDate(skill.createdAt) }}</td>
+                        </tr>
+                        <tr *ngIf="!loading && skills.length === 0">
+                            <td colspan="5" class="text-center">No skills found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="row align-items-center">
+            <div class="col-md-12 col-lg-4">
+                <div class="text-center text-lg-start py-3">Showing {{ skills.length }} Entries</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Offcanvas -->
+<div class="offcanvas offcanvas-end filter-offcanvas floating-offcanvas" tabindex="-1" id="SkillListFilter">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Filter Skills</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <div class="form-group-label">Skill Title</div>
+                    <input type="text" class="form-control" placeholder="Enter Skill Title" [(ngModel)]="filter.title">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <div class="form-group-label">Status</div>
+                    <select class="form-control" [(ngModel)]="filter.status">
+                        <option [value]="undefined">All Status</option>
+                        <option [value]="true">Active</option>
+                        <option [value]="false">Inactive</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="offcanvas-footer">
+        <div class="row">
+            <div class="col-6">
+                <button type="button" class="btn btn-light w-100" (click)="resetFilter()">Reset</button>
+            </div>
+            <div class="col-6">
+                <button type="button" class="btn btn-primary w-100" (click)="applyFilter()" data-bs-dismiss="offcanvas">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="DeleteSkillModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cancelDelete()"></button>
+            </div>
+            <div class="modal-body text-center pt-0">
+                <div class="mb-4">
+                    <i class="icon-dc-delete text-danger" style="font-size: 4rem;"></i>
+                </div>
+                <h4 class="mb-3">Delete Skill</h4>
+                <p class="text-muted mb-4" *ngIf="skillToDelete">
+                    Are you sure you want to delete the skill <strong>{{ skillToDelete.title }}</strong>?<br>
+                    This action cannot be undone.
+                </p>
+            </div>
+            <div class="modal-footer border-0 justify-content-center">
+                <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal" (click)="cancelDelete()">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="confirmDelete()">
+                    <i class="icon-dc-delete me-1"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+    <div *ngIf="toastMessage" 
+         class="toast show" 
+         [class.bg-success]="toastType === 'success'"
+         [class.bg-danger]="toastType === 'error'"
+         role="alert">
+        <div class="toast-header">
+            <i *ngIf="toastType === 'success'" class="icon-dc-check text-success me-2"></i>
+            <i *ngIf="toastType === 'error'" class="icon-dc-close text-danger me-2"></i>
+            <strong class="me-auto text-white">{{ toastType === 'success' ? 'Success' : 'Error' }}</strong>
+        </div>
+        <div class="toast-body text-white">
+            {{ toastMessage }}
+        </div>
+    </div>
+</div>

@@ -218,6 +218,25 @@ export interface ServiceFilter {
   status?: string;
 }
 
+export interface Skill {
+  _id: string;
+  title: string;
+  image: string;
+  status: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SkillResponse {
+  success: boolean;
+  data: Skill[];
+}
+
+export interface SkillFilter {
+  title?: string;
+  status?: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -372,5 +391,49 @@ export class ServiceService {
       .replace(/\s+/g, '-')
       .replace(/-+/g, '-')
       .trim();
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SkillService {
+  private apiUrl = environment.apiUrl;
+
+  constructor(private http: HttpClient) { }
+
+  getSkills(filter?: SkillFilter): Observable<SkillResponse> {
+    return this.http.get<SkillResponse>(`${this.apiUrl}/skills`).pipe(
+      map((response: SkillResponse) => {
+        if (!filter || (!filter.title && filter.status === undefined)) {
+          return response;
+        }
+        
+        const filteredData = response.data.filter(skill => {
+          const titleMatch = !filter.title || 
+            skill.title.toLowerCase().includes(filter.title.toLowerCase());
+          const statusMatch = filter.status === undefined || skill.status === filter.status;
+          return titleMatch && statusMatch;
+        });
+        
+        return { ...response, data: filteredData };
+      })
+    );
+  }
+
+  getSkillById(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/skills/${id}`);
+  }
+
+  createSkill(skillData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/skills/create`, skillData);
+  }
+
+  updateSkill(id: string, skillData: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}/skills/update/${id}`, skillData);
+  }
+
+  deleteSkill(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/skills/delete/${id}`);
   }
 }
