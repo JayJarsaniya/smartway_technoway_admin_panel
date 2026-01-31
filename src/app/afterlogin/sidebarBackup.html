@@ -28,6 +28,26 @@
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header">
+                                <a [routerLink]="['/seo-page-list']" class="accordion-btn-link">
+                                    <div class="sidebar-menu-icon">
+                                        <i class="icon-seo-icon"></i>
+                                    </div>
+                                    <div class="sidebar-menu-name">SEO Pages</div>
+                                </a>
+                            </h2>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <a [routerLink]="['/client-list']" class="accordion-btn-link">
+                                    <div class="sidebar-menu-icon">
+                                        <i class="icon-dc-client-list"></i>
+                                    </div>
+                                    <div class="sidebar-menu-name">Client List</div>
+                                </a>
+                            </h2>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
                                 <a [routerLink]="['/review-list']" class="accordion-btn-link">
                                     <div class="sidebar-menu-icon">
                                         <i class="icon-dc-reviews"></i>
@@ -38,13 +58,96 @@
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <a [routerLink]="['/blogs/blog-list']" class="accordion-btn-link">
+                                <a [routerLink]="['/subscribers-list']" class="accordion-btn-link">
                                     <div class="sidebar-menu-icon">
-                                        <i class="icon-dc-total-blogs"></i>
+                                        <i class="icon-dc-subscribers"></i>
                                     </div>
+                                    <div class="sidebar-menu-name">Subscribers</div>
+                                </a>
+                            </h2>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <a href="javascript:void(0)" class="accordion-button collapsed"
+                                    data-bs-toggle="collapse" data-bs-target="#BlogsCollapse1" aria-expanded="false"
+                                    aria-controls="BlogsCollapse1">
+                                    <div class="sidebar-menu-icon"><i class="icon-dc-total-blogs"></i></div>
                                     <div class="sidebar-menu-name">Blogs</div>
                                 </a>
                             </h2>
+                            <div id="BlogsCollapse1" class="accordion-collapse collapse"
+                                data-bs-parent="#SidebarAccordions">
+                                <div class="accordion-body">
+                                    <div class="sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                                <a [routerLink]="['/blogs/blog-list']">Blog List</a>
+                                            </li>
+                                            <li>
+                                                <a [routerLink]="['/blogs/blog-category-list']">Blog Categories</a>
+                                            </li>
+                                            <li>
+                                                <a [routerLink]="['/blogs/blog-tag-list']">Blog Tags</a>
+                                            </li>
+                                            <li>
+                                                <a [routerLink]="['/blogs/blog-comment-list']">Blog Comments</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <a href="javascript:void(0)" class="accordion-button collapsed"
+                                    data-bs-toggle="collapse" data-bs-target="#PortfolioCollapse1" aria-expanded="false"
+                                    aria-controls="PortfolioCollapse1">
+                                    <div class="sidebar-menu-icon"><i class="icon-dc-portfolio"></i></div>
+                                    <div class="sidebar-menu-name">Portfolio</div>
+                                </a>
+                            </h2>
+                            <div id="PortfolioCollapse1" class="accordion-collapse collapse"
+                                data-bs-parent="#SidebarAccordions">
+                                <div class="accordion-body">
+                                    <div class="sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                                <a [routerLink]="['/portfolio/portfolio-list']">Portfolio List</a>
+                                            </li>
+                                            <li>
+                                                <a [routerLink]="['/portfolio/portfolio-category-list']">Portfolio
+                                                    Categories</a>
+                                            </li>
+                                            <li>
+                                                <a [routerLink]="['/portfolio/portfolio-tag-list']">Portfolio Tags</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <a href="javascript:void(0)" class="accordion-button collapsed"
+                                    data-bs-toggle="collapse" data-bs-target="#CaseStudyCollapse1" aria-expanded="false"
+                                    aria-controls="CaseStudyCollapse1">
+                                    <div class="sidebar-menu-icon"><i class="icon-dc-portfolio"></i></div>
+                                    <div class="sidebar-menu-name">Case Study</div>
+                                </a>
+                            </h2>
+                            <div id="CaseStudyCollapse1" class="accordion-collapse collapse"
+                                data-bs-parent="#SidebarAccordions">
+                                <div class="accordion-body">
+                                    <div class="sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                                <a [routerLink]="['/case-studies/case-studies-list']">Case Study
+                                                    List</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header">
@@ -73,15 +176,82 @@
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <a [routerLink]="['/contact/user-enquiry-list']" class="accordion-btn-link">
-                                    <div class="sidebar-menu-icon">
-                                        <i class="icon-dc-total-blogs"></i>
-                                    </div>
-                                    <div class="sidebar-menu-name">User Enquiry</div>
+                                <a href="javascript:void(0)" class="accordion-button collapsed"
+                                    data-bs-toggle="collapse" data-bs-target="#EventsCollapse1" aria-expanded="false"
+                                    aria-controls="EventsCollapse1">
+                                    <div class="sidebar-menu-icon"><i class="icon-dc-events"></i></div>
+                                    <div class="sidebar-menu-name">Events</div>
                                 </a>
                             </h2>
+                            <div id="EventsCollapse1" class="accordion-collapse collapse"
+                                data-bs-parent="#SidebarAccordions">
+                                <div class="accordion-body">
+                                    <div class="sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                                <a [routerLink]="['/events/event-list']">Event List</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                       
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <a href="javascript:void(0)" class="accordion-button collapsed"
+                                    data-bs-toggle="collapse" data-bs-target="#EnquiriesCollapse1" aria-expanded="false"
+                                    aria-controls="EnquiriesCollapse1">
+                                    <div class="sidebar-menu-icon"><i class="icon-dc-enquiries"></i></div>
+                                    <div class="sidebar-menu-name">Enquiries</div>
+                                </a>
+                            </h2>
+                            <div id="EnquiriesCollapse1" class="accordion-collapse collapse"
+                                data-bs-parent="#SidebarAccordions">
+                                <div class="accordion-body">
+                                    <div class="sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                                <a [routerLink]="['/enquiries/service-enquiry-list']">Service
+                                                    Enquiries</a>
+                                            </li>
+                                            <li>
+                                                <a [routerLink]="['/enquiries/industry-enquiry-list']">Industry
+                                                    Enquiries</a>
+                                            </li>
+                                            <li>
+                                                <a [routerLink]="['/enquiries/case-study-enquiry-list']">Case Study
+                                                    Enquiries</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <a href="javascript:void(0)" class="accordion-button collapsed"
+                                    data-bs-toggle="collapse" data-bs-target="#ContactCollapse1" aria-expanded="false"
+                                    aria-controls="ContactCollapse1">
+                                    <div class="sidebar-menu-icon"><i class="icon-dc-contact"></i></div>
+                                    <div class="sidebar-menu-name">Contact</div>
+                                </a>
+                            </h2>
+                            <div id="ContactCollapse1" class="accordion-collapse collapse"
+                                data-bs-parent="#SidebarAccordions">
+                                <div class="accordion-body">
+                                    <div class="sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                                <a [routerLink]="['/contact/setting-list']">Settings</a>
+                                            </li>
+                                            <li>
+                                                <a [routerLink]="['/contact/user-enquiry-list']">User Enquiry</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="">
