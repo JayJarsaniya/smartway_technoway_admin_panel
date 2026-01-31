@@ -172,6 +172,52 @@ export interface BlogFilter {
   isPublished?: boolean;
 }
 
+export interface Service {
+  _id: string;
+  title: string;
+  slug: string;
+  card: {
+    shortDescription: string;
+    icon: string;
+  };
+  heroSection: {
+    headline: string;
+    subHeadline: string;
+  };
+  servicesOverview: {
+    title: string;
+    description: string;
+    services: Array<{
+      title: string;
+      description: string;
+      icon: string;
+      _id?: string;
+    }>;
+  };
+  processSection: {
+    title: string;
+    steps: Array<{
+      step: number;
+      title: string;
+      icon: string;
+      _id?: string;
+    }>;
+  };
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ServiceResponse {
+  success: boolean;
+  data: Service[];
+}
+
+export interface ServiceFilter {
+  title?: string;
+  status?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -260,6 +306,63 @@ export class BlogService {
 
   deleteBlog(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/blogs/delete/${id}`);
+  }
+
+  generateSlug(title: string): string {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9 -]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim();
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ServiceService {
+  private apiUrl = environment.apiUrl;
+
+  constructor(private http: HttpClient) { }
+
+  getServices(filter?: ServiceFilter): Observable<ServiceResponse> {
+    return this.http.get<ServiceResponse>(`${this.apiUrl}/services`).pipe(
+      map((response: ServiceResponse) => {
+        if (!filter || (!filter.title && !filter.status)) {
+          return response;
+        }
+        
+        const filteredData = response.data.filter(service => {
+          const titleMatch = !filter.title || 
+            service.title.toLowerCase().includes(filter.title.toLowerCase());
+          const statusMatch = !filter.status || service.status === filter.status;
+          return titleMatch && statusMatch;
+        });
+        
+        return { ...response, data: filteredData };
+      })
+    );
+  }
+
+  getServiceById(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/services/${id}`);
+  }
+
+  getServiceBySlug(slug: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/services/${slug}`);
+  }
+
+  createService(service: Partial<Service>): Observable<any> {
+    return this.http.post(`${this.apiUrl}/services/create`, service);
+  }
+
+  updateService(id: string, service: Partial<Service>): Observable<any> {
+    return this.http.put(`${this.apiUrl}/services/update/${id}`, service);
+  }
+
+  deleteService(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/services/delete/${id}`);
   }
 
   generateSlug(title: string): string {

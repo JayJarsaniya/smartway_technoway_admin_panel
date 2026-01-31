@@ -1,0 +1,217 @@
+<div class="row align-items-center justify-content-between">
+    <div class="col-auto">
+        <div class="page-header-name">Service List</div>
+    </div>
+    <div class="col-auto text-end">
+        <div class="nav-header-action">
+            <div class="nav-head-item">
+                <button type="button" class="btn btn-primary" (click)="addNewService()">
+                    <i class="icon-dc-plus btn-icon-left"></i> Add Service
+                </button>
+            </div>
+            <div class="nav-head-item">
+                <button type="button" class="btn btn-light" data-bs-toggle="offcanvas" data-bs-target="#ServiceListFilter">
+                    <i class="icon-dc-filter btn-icon-left"></i> Filter
+                    <span *ngIf="isFilterApplied" class="badge bg-primary ms-1">{{ activeFilterCount }}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card data-table table-card-rounded">
+            <div class="table-responsive scroll-light list-table-height-1">
+                <table class="table thead-fixed mb-0">
+                    <thead>
+                        <tr>
+                            <th class="first-fixed-col" width="60">Action</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Icon</th>
+                            <th>Status</th>
+                            <th>Created Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="loading">
+                            <td colspan="6" class="text-center py-5">
+                                <img src="assets/images/loader.gif" alt="Loading..." style="width: 80px; height: 80px;">
+                            </td>
+                        </tr>
+                        <tr *ngFor="let service of services" [hidden]="loading">
+                            <td class="first-fixed-col">
+                                <ul class="actions-wrap actions-style-1">
+                                    <li class="actions-item">
+                                        <button type="button" class="btn btn-outline-primary action-btn-32" (click)="viewService(service)">
+                                            <i class="icon-dc-eye"></i>
+                                        </button>
+                                    </li>
+                                    <li class="actions-item">
+                                        <button type="button" class="btn btn-outline-primary action-btn-32" (click)="editService(service)">
+                                            <i class="icon-dc-edit"></i>
+                                        </button>
+                                    </li>
+                                    <li class="actions-item">
+                                        <button type="button" class="btn btn-outline-primary action-btn-32"
+                                            data-bs-toggle="modal" data-bs-target="#DeleteServiceModal"
+                                            (click)="deleteService(service)">
+                                            <i class="icon-dc-delete"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>{{ service.title }}</td>
+                            <td>
+                                <div class="text-wrap">
+                                    {{ truncateText(service.card.shortDescription, 100) }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="sub-image-wrap" *ngIf="service.card.icon">
+                                    <img [src]="service.card.icon" class="img-fluid sub-image-65" alt="Service Icon">
+                                </div>
+                            </td>
+                            <td>
+                                <button type="button" 
+                                    [class]="service.status === 'active' ? 'badge badge-green' : 'badge badge-red'">
+                                    {{ service.status === 'active' ? 'Active' : 'Inactive' }}
+                                </button>
+                            </td>
+                            <td>{{ formatDate(service.createdAt) }}</td>
+                        </tr>
+                        <tr *ngIf="!loading && services.length === 0">
+                            <td colspan="6" class="text-center">No services found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="row align-items-center">
+            <div class="col-md-12 col-lg-4">
+                <div class="text-center text-lg-start py-3">Showing {{ services.length }} Entries</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Offcanvas -->
+<div class="offcanvas offcanvas-end filter-offcanvas floating-offcanvas" tabindex="-1" id="ServiceListFilter">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Filter Services</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <div class="form-group-label">Service Title</div>
+                    <input type="text" class="form-control" placeholder="Enter Service Title" [(ngModel)]="filter.title">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <div class="form-group-label">Status</div>
+                    <select class="form-control" [(ngModel)]="filter.status">
+                        <option value="">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="offcanvas-footer">
+        <div class="row">
+            <div class="col-6">
+                <button type="button" class="btn btn-light w-100" (click)="resetFilter()">Reset</button>
+            </div>
+            <div class="col-6">
+                <button type="button" class="btn btn-primary w-100" (click)="applyFilter()" data-bs-dismiss="offcanvas">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="DeleteServiceModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cancelDelete()"></button>
+            </div>
+            <div class="modal-body text-center pt-0">
+                <div class="mb-4">
+                    <i class="icon-dc-delete text-danger" style="font-size: 4rem;"></i>
+                </div>
+                <h4 class="mb-3">Delete Service</h4>
+                <p class="text-muted mb-4" *ngIf="serviceToDelete">
+                    Are you sure you want to delete the service <strong>{{ serviceToDelete.title }}</strong>?<br>
+                    This action cannot be undone.
+                </p>
+            </div>
+            <div class="modal-footer border-0 justify-content-center">
+                <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal" (click)="cancelDelete()">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="confirmDelete()">
+                    <i class="icon-dc-delete me-1"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+    <div *ngIf="toastMessage" 
+         class="toast show" 
+         [class.bg-success]="toastType === 'success'"
+         [class.bg-danger]="toastType === 'error'"
+         role="alert">
+        <div class="toast-header">
+            <i *ngIf="toastType === 'success'" class="icon-dc-check text-success me-2"></i>
+            <i *ngIf="toastType === 'error'" class="icon-dc-close text-danger me-2"></i>
+            <strong class="me-auto text-white">{{ toastType === 'success' ? 'Success' : 'Error' }}</strong>
+        </div>
+        <div class="toast-body text-white">
+            {{ toastMessage }}
+        </div>
+    </div>
+</div>
+
+<style>
+.toast-container .toast {
+    min-width: 300px;
+    animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toast.bg-success {
+    background-color: #28a745 !important;
+    border-color: #28a745;
+}
+
+.toast.bg-danger {
+    background-color: #dc3545 !important;
+    border-color: #dc3545;
+}
+
+.toast-header {
+    background-color: rgba(0,0,0,0.1) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+</style>

@@ -1,0 +1,179 @@
+<div class="row align-items-center justify-content-between">
+    <div class="col-auto">
+        <div class="page-header-name">Service Details</div>
+    </div>
+    <div class="col-auto text-end">
+        <div class="nav-header-action">
+            <div class="nav-head-item">
+                <button type="button" class="btn btn-light" (click)="goBack()">
+                    <i class="icon-dc-arrow-left btn-icon-left"></i> Back
+                </button>
+            </div>
+            <div class="nav-head-item" *ngIf="service">
+                <button type="button" class="btn btn-primary" (click)="editService()">
+                    <i class="icon-dc-edit btn-icon-left"></i> Edit Service
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="loading" class="text-center py-5">
+    <img src="assets/images/loader.gif" alt="Loading..." style="width: 80px; height: 80px;">
+</div>
+
+<div *ngIf="!loading && service" class="row">
+    <!-- Basic Information -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Basic Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <strong>Title:</strong>
+                        <p>{{ service.title }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Slug:</strong>
+                        <p>{{ service.slug }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Status:</strong>
+                        <span [class]="service.status === 'active' ? 'badge badge-green' : 'badge badge-red'">
+                            {{ service.status === 'active' ? 'Active' : 'Inactive' }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card Information -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Card Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <strong>Short Description:</strong>
+                        <p>{{ service.card.shortDescription }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Icon:</strong>
+                        <div class="mt-2">
+                            <img [src]="service.card.icon" class="img-fluid" style="max-width: 64px; max-height: 64px;" alt="Service Icon">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Hero Section</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong>Headline:</strong>
+                        <p>{{ service.heroSection.headline }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Sub Headline:</strong>
+                        <p>{{ service.heroSection.subHeadline }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Overview -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Services Overview</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Title:</strong>
+                        <p>{{ service.servicesOverview.title }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Description:</strong>
+                        <p>{{ service.servicesOverview.description }}</p>
+                    </div>
+                </div>
+                
+                <h6>Services:</h6>
+                <div class="row">
+                    <div class="col-md-6 mb-3" *ngFor="let svc of service.servicesOverview.services">
+                        <div class="border p-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <img [src]="svc.icon" class="me-2" style="width: 32px; height: 32px;" alt="Service Icon">
+                                <strong>{{ svc.title }}</strong>
+                            </div>
+                            <p class="mb-0">{{ svc.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Process Section -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Process Section</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <strong>Process Title:</strong>
+                    <p>{{ service.processSection.title }}</p>
+                </div>
+                
+                <h6>Steps:</h6>
+                <div class="row">
+                    <div class="col-md-4 mb-3" *ngFor="let step of service.processSection.steps">
+                        <div class="border p-3 text-center">
+                            <div class="mb-2">
+                                <img [src]="step.icon" style="width: 48px; height: 48px;" alt="Step Icon">
+                            </div>
+                            <div class="badge bg-primary mb-2">Step {{ step.step }}</div>
+                            <h6>{{ step.title }}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timestamps -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Timestamps</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong>Created At:</strong>
+                        <p>{{ service.createdAt | date:'medium' }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Updated At:</strong>
+                        <p>{{ service.updatedAt | date:'medium' }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -58,6 +58,18 @@ const routes: Routes = [
         loadChildren: () => import('./_pages/blogs/blog-comment-list/blog-comment-list.module').then(m => m.BlogCommentListModule) 
       },
       { 
+        path: 'services/service-list', 
+        loadChildren: () => import('./_pages/services/service-list/service-list.module').then(m => m.ServiceListModule) 
+      },
+      {
+        path: 'services/add-service', 
+        loadChildren: () => import('./_pages/services/add-service/add-service.module').then(m => m.AddServiceModule) 
+      },
+      { 
+        path: 'services/service-detail/:id', 
+        loadChildren: () => import('./_pages/services/service-detail/service-detail.module').then(m => m.ServiceDetailModule) 
+      },
+      { 
         path: 'portfolio/portfolio-list', 
         loadChildren: () => import('./_pages/portfolio/portfolio-list/portfolio-list.module').then(m => m.PortfolioListModule) 
       },
