@@ -1,21 +1,24 @@
 <div class="row align-items-center justify-content-between">
     <div class="col-auto">
-        <div class="page-header-name">Blogs List</div>
+        <div class="page-header-name">Blog List</div>
     </div>
     <div class="col-auto text-end">
         <div class="nav-header-action">
             <div class="nav-head-item">
-                <a [routerLink]="['/blogs/add-blog']" class="btn btn-primary">
-                    <i class="icon-dc-plus btn-icon-left"></i> Add Blog</a>
+                <button type="button" class="btn btn-primary" (click)="addNewBlog()">
+                    <i class="icon-dc-plus btn-icon-left"></i> Add Blog
+                </button>
             </div>
             <div class="nav-head-item">
-                <button type="button" class="btn btn-light" data-bs-toggle="offcanvas"
-                    data-bs-target="#BlogsListFilter">
-                    <i class="icon-dc-filter btn-icon-left"></i> Filter</button>
+                <button type="button" class="btn btn-light" data-bs-toggle="offcanvas" data-bs-target="#BlogListFilter">
+                    <i class="icon-dc-filter btn-icon-left"></i> Filter
+                    <span *ngIf="isFilterApplied" class="badge bg-primary ms-1">{{ activeFilterCount }}</span>
+                </button>
             </div>
         </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-12">
         <div class="card data-table table-card-rounded">
@@ -23,691 +26,59 @@
                 <table class="table thead-fixed mb-0">
                     <thead>
                         <tr>
-                            <th>Action</th>
+                            <th class="first-fixed-col" width="60">Action</th>
                             <th>Title</th>
-                            <th>Category </th>
-                            <th>Tags</th>
-                            <th>Description </th>
+                            <th>Content</th>
                             <th>Image</th>
                             <th>Status</th>
-                            <th>Author</th>
                             <th>Created Date</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr *ngIf="loading">
+                            <td colspan="6" class="text-center py-5">
+                                <img src="assets/images/loader.gif" alt="Loading..." style="width: 80px; height: 80px;">
+                            </td>
+                        </tr>
+                        <tr *ngFor="let blog of blogs" [hidden]="loading">
                             <td class="first-fixed-col">
                                 <ul class="actions-wrap actions-style-1">
                                     <li class="actions-item">
-                                        <a [routerLink]="['/blogs/add-blog']"
-                                            class="btn btn-outline-primary action-btn-32">
-                                            <i class="icon-dc-eye"></i>
-                                        </a>
+                                        <button type="button" class="btn btn-outline-primary action-btn-32" (click)="editBlog(blog)">
+                                            <i class="icon-dc-edit"></i>
+                                        </button>
                                     </li>
                                     <li class="actions-item">
                                         <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
+                                            data-bs-toggle="modal" data-bs-target="#DeleteBlogModal"
+                                            (click)="deleteBlog(blog)">
                                             <i class="icon-dc-delete"></i>
                                         </button>
                                     </li>
                                 </ul>
                             </td>
-                            <td>Hardware Engineering</td>
+                            <td>{{ blog.title }}</td>
                             <td>
                                 <div class="text-wrap">
-                                    Hardware Engineering,
-                                    Embedded Engineering
+                                    {{ truncateText(blog.content, 100) }}
                                 </div>
                             </td>
                             <td>
-                                <div class="text-wrap">
-                                    INTERNET OF THINGS,
-                                    INTERNET OF THINGS,
+                                <div class="sub-image-wrap" *ngIf="blog.image">
+                                    <img [src]="blog.image" class="img-fluid sub-image-65" alt="Blog Image">
                                 </div>
                             </td>
                             <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
+                                <button type="button" 
+                                    [class]="blog.isPublished ? 'badge badge-green' : 'badge badge-red'">
+                                    {{ blog.isPublished ? 'Published' : 'Draft' }}
+                                </button>
                             </td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <button type="button" class="badge badge-green" data-bs-toggle="modal"
-                                    data-bs-target="#StatusChangeModal">Yes</button>
-                            </td>
-                            <td>Mahendra sondagar</td>
-                            <td>28 March 2025 04:10:24 PM</td>
+                            <td>{{ formatDate(blog.createdAt) }}</td>
                         </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <a [routerLink]="['/blogs/add-blog']"
-                                            class="btn btn-outline-primary action-btn-32">
-                                            <i class="icon-dc-eye"></i>
-                                        </a>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Hardware Engineering</td>
-                            <td>
-                                <div class="text-wrap">
-                                    Hardware Engineering,
-                                    Embedded Engineering
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    INTERNET OF THINGS,
-                                    INTERNET OF THINGS,
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <button type="button" class="badge badge-red" data-bs-toggle="modal"
-                                    data-bs-target="#StatusChangeModal">No</button>
-                            </td>
-                            <td>Mahendra sondagar</td>
-                            <td>28 March 2025 04:10:24 PM</td>
+                        <tr *ngIf="!loading && blogs.length === 0">
+                            <td colspan="6" class="text-center">No blogs found</td>
                         </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <a [routerLink]="['/blogs/add-blog']"
-                                            class="btn btn-outline-primary action-btn-32">
-                                            <i class="icon-dc-eye"></i>
-                                        </a>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Hardware Engineering</td>
-                            <td>
-                                <div class="text-wrap">
-                                    Hardware Engineering,
-                                    Embedded Engineering
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    INTERNET OF THINGS,
-                                    INTERNET OF THINGS,
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <button type="button" class="badge badge-green" data-bs-toggle="modal"
-                                    data-bs-target="#StatusChangeModal">Yes</button>
-                            </td>
-                            <td>Mahendra sondagar</td>
-                            <td>28 March 2025 04:10:24 PM</td>
-                        </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <a [routerLink]="['/blogs/add-blog']"
-                                            class="btn btn-outline-primary action-btn-32">
-                                            <i class="icon-dc-eye"></i>
-                                        </a>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Hardware Engineering</td>
-                            <td>
-                                <div class="text-wrap">
-                                    Hardware Engineering,
-                                    Embedded Engineering
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    INTERNET OF THINGS,
-                                    INTERNET OF THINGS,
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <button type="button" class="badge badge-red" data-bs-toggle="modal"
-                                    data-bs-target="#StatusChangeModal">No</button>
-                            </td>
-                            <td>Mahendra sondagar</td>
-                            <td>28 March 2025 04:10:24 PM</td>
-                        </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <a [routerLink]="['/blogs/add-blog']"
-                                            class="btn btn-outline-primary action-btn-32">
-                                            <i class="icon-dc-eye"></i>
-                                        </a>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Hardware Engineering</td>
-                            <td>
-                                <div class="text-wrap">
-                                    Hardware Engineering,
-                                    Embedded Engineering
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    INTERNET OF THINGS,
-                                    INTERNET OF THINGS,
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <button type="button" class="badge badge-green" data-bs-toggle="modal"
-                                    data-bs-target="#StatusChangeModal">Yes</button>
-                            </td>
-                            <td>Mahendra sondagar</td>
-                            <td>28 March 2025 04:10:24 PM</td>
-                        </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <a [routerLink]="['/blogs/add-blog']"
-                                            class="btn btn-outline-primary action-btn-32">
-                                            <i class="icon-dc-eye"></i>
-                                        </a>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Hardware Engineering</td>
-                            <td>
-                                <div class="text-wrap">
-                                    Hardware Engineering,
-                                    Embedded Engineering
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    INTERNET OF THINGS,
-                                    INTERNET OF THINGS,
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <button type="button" class="badge badge-red" data-bs-toggle="modal"
-                                    data-bs-target="#StatusChangeModal">No</button>
-                            </td>
-                            <td>Mahendra sondagar</td>
-                            <td>28 March 2025 04:10:24 PM</td>
-                        </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <a [routerLink]="['/blogs/add-blog']"
-                                            class="btn btn-outline-primary action-btn-32">
-                                            <i class="icon-dc-eye"></i>
-                                        </a>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Hardware Engineering</td>
-                            <td>
-                                <div class="text-wrap">
-                                    Hardware Engineering,
-                                    Embedded Engineering
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    INTERNET OF THINGS,
-                                    INTERNET OF THINGS,
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <button type="button" class="badge badge-green" data-bs-toggle="modal"
-                                    data-bs-target="#StatusChangeModal">Yes</button>
-                            </td>
-                            <td>Mahendra sondagar</td>
-                            <td>28 March 2025 04:10:24 PM</td>
-                        </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <a [routerLink]="['/blogs/add-blog']"
-                                            class="btn btn-outline-primary action-btn-32">
-                                            <i class="icon-dc-eye"></i>
-                                        </a>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Hardware Engineering</td>
-                            <td>
-                                <div class="text-wrap">
-                                    Hardware Engineering,
-                                    Embedded Engineering
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    INTERNET OF THINGS,
-                                    INTERNET OF THINGS,
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <button type="button" class="badge badge-red" data-bs-toggle="modal"
-                                    data-bs-target="#StatusChangeModal">No</button>
-                            </td>
-                            <td>Mahendra sondagar</td>
-                            <td>28 March 2025 04:10:24 PM</td>
-                        </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <a [routerLink]="['/blogs/add-blog']"
-                                            class="btn btn-outline-primary action-btn-32">
-                                            <i class="icon-dc-eye"></i>
-                                        </a>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Hardware Engineering</td>
-                            <td>
-                                <div class="text-wrap">
-                                    Hardware Engineering,
-                                    Embedded Engineering
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    INTERNET OF THINGS,
-                                    INTERNET OF THINGS,
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <button type="button" class="badge badge-green" data-bs-toggle="modal"
-                                    data-bs-target="#StatusChangeModal">Yes</button>
-                            </td>
-                            <td>Mahendra sondagar</td>
-                            <td>28 March 2025 04:10:24 PM</td>
-                        </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <a [routerLink]="['/blogs/add-blog']"
-                                            class="btn btn-outline-primary action-btn-32">
-                                            <i class="icon-dc-eye"></i>
-                                        </a>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Hardware Engineering</td>
-                            <td>
-                                <div class="text-wrap">
-                                    Hardware Engineering,
-                                    Embedded Engineering
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    INTERNET OF THINGS,
-                                    INTERNET OF THINGS,
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <button type="button" class="badge badge-red" data-bs-toggle="modal"
-                                    data-bs-target="#StatusChangeModal">No</button>
-                            </td>
-                            <td>Mahendra sondagar</td>
-                            <td>28 March 2025 04:10:24 PM</td>
-                        </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <a [routerLink]="['/blogs/add-blog']"
-                                            class="btn btn-outline-primary action-btn-32">
-                                            <i class="icon-dc-eye"></i>
-                                        </a>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Hardware Engineering</td>
-                            <td>
-                                <div class="text-wrap">
-                                    Hardware Engineering,
-                                    Embedded Engineering
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    INTERNET OF THINGS,
-                                    INTERNET OF THINGS,
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <button type="button" class="badge badge-green" data-bs-toggle="modal"
-                                    data-bs-target="#StatusChangeModal">Yes</button>
-                            </td>
-                            <td>Mahendra sondagar</td>
-                            <td>28 March 2025 04:10:24 PM</td>
-                        </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <a [routerLink]="['/blogs/add-blog']"
-                                            class="btn btn-outline-primary action-btn-32">
-                                            <i class="icon-dc-eye"></i>
-                                        </a>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Hardware Engineering</td>
-                            <td>
-                                <div class="text-wrap">
-                                    Hardware Engineering,
-                                    Embedded Engineering
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    INTERNET OF THINGS,
-                                    INTERNET OF THINGS,
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <button type="button" class="badge badge-red" data-bs-toggle="modal"
-                                    data-bs-target="#StatusChangeModal">No</button>
-                            </td>
-                            <td>Mahendra sondagar</td>
-                            <td>28 March 2025 04:10:24 PM</td>
-                        </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <a [routerLink]="['/blogs/add-blog']"
-                                            class="btn btn-outline-primary action-btn-32">
-                                            <i class="icon-dc-eye"></i>
-                                        </a>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Hardware Engineering</td>
-                            <td>
-                                <div class="text-wrap">
-                                    Hardware Engineering,
-                                    Embedded Engineering
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    INTERNET OF THINGS,
-                                    INTERNET OF THINGS,
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <button type="button" class="badge badge-green" data-bs-toggle="modal"
-                                    data-bs-target="#StatusChangeModal">Yes</button>
-                            </td>
-                            <td>Mahendra sondagar</td>
-                            <td>28 March 2025 04:10:24 PM</td>
-                        </tr>
-                        <tr>
-                            <td class="first-fixed-col">
-                                <ul class="actions-wrap actions-style-1">
-                                    <li class="actions-item">
-                                        <a [routerLink]="['/blogs/add-blog']"
-                                            class="btn btn-outline-primary action-btn-32">
-                                            <i class="icon-dc-eye"></i>
-                                        </a>
-                                    </li>
-                                    <li class="actions-item">
-                                        <button type="button" class="btn btn-outline-primary action-btn-32"
-                                            data-bs-toggle="modal" data-bs-target="#DeleteModal">
-                                            <i class="icon-dc-delete"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>Hardware Engineering</td>
-                            <td>
-                                <div class="text-wrap">
-                                    Hardware Engineering,
-                                    Embedded Engineering
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    INTERNET OF THINGS,
-                                    INTERNET OF THINGS,
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-wrap">
-                                    Lorem Ipsum is simply dummy industry...<a href="" class="btn btn-link">Read More</a>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="sub-image-wrap">
-                                    <img src="/assets/images/good-morning-beautiful-images-2.png"
-                                        class="img-fluid sub-image-65">
-                                </div>
-                            </td>
-                            <td>
-                                <button type="button" class="badge badge-red" data-bs-toggle="modal"
-                                    data-bs-target="#StatusChangeModal">No</button>
-                            </td>
-                            <td>Mahendra sondagar</td>
-                            <td>28 March 2025 04:10:24 PM</td>
-                        </tr>
-
                     </tbody>
                 </table>
             </div>
@@ -716,57 +87,16 @@
     <div class="col-12">
         <div class="row align-items-center">
             <div class="col-md-12 col-lg-4">
-                <div class="text-center text-lg-start py-3">Showing 1 to 20 of 500 Entries</div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div
-                    class="d-flex align-items-center justify-content-center justify-content-md-start justify-content-lg-center py-2">
-                    <div class="">Show</div>
-                    <div class="">
-                        <select>
-                            <option>25</option>
-                            <option>50</option>
-                            <option>75</option>
-                            <option>100</option>
-                        </select>
-                    </div>
-                    <div class="">Entries</div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <ul class="pagination justify-content-center justify-content-md-end">
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="icon-dc-caret-double-left"></i>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="icon-dc-caret-left"></i>
-                        </a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                    <li class="page-item"><a class="page-link" href="#">02</a></li>
-                    <li class="page-item"><a class="page-link" href="#">03</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="icon-dc-caret-right"></i>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="icon-dc-caret-double-right"></i>
-                        </a>
-                    </li>
-                </ul>
+                <div class="text-center text-lg-start py-3">Showing {{ blogs.length }} Entries</div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="offcanvas offcanvas-end filter-offcanvas floating-offcanvas" tabindex="-1" id="BlogsListFilter">
+<!-- Filter Offcanvas -->
+<div class="offcanvas offcanvas-end filter-offcanvas floating-offcanvas" tabindex="-1" id="BlogListFilter">
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasRightLabel">Filter</h5>
+        <h5 class="offcanvas-title">Filter Blogs</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
@@ -774,47 +104,17 @@
             <div class="col-12">
                 <div class="form-group">
                     <div class="form-group-label">Blog Title</div>
-                    <input type="text" class="form-control" placeholder="Enter Blog Title">
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="form-group">
-                    <div class="form-group-label">Category </div>
-                    <ng-select class="ng-select-custom" [clearable]="false" [(ngModel)]="SelectOption"
-                        name="SelectOption1" placeholder="Select Category ">
-                        <ng-option *ngFor="let BT of SelectOption1" [value]="BT.value">{{BT.label}}</ng-option>
-                    </ng-select>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="form-group">
-                    <div class="form-group-label">Tag</div>
-                    <ng-select class="ng-select-custom" [clearable]="false" [(ngModel)]="SelectOption_2"
-                        name="SelectOption2" placeholder="Select Tag ">
-                        <ng-option *ngFor="let BT of SelectOption2" [value]="BT.value">{{BT.label}}</ng-option>
-                    </ng-select>
+                    <input type="text" class="form-control" placeholder="Enter Blog Title" [(ngModel)]="filter.title">
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group">
                     <div class="form-group-label">Status</div>
-                    <ng-select class="ng-select-custom" [clearable]="false" [(ngModel)]="SelectOption_3"
-                        name="SelectOption3" placeholder="Select Status">
-                        <ng-option *ngFor="let BT of SelectOption3" [value]="BT.value">{{BT.label}}</ng-option>
-                    </ng-select>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="form-group">
-                    <div class="form-group-label">Created Date</div>
-                    <div class="position-relative">
-                        <input [(bsValue)]="dateRange1" autocomplete="off" class="form-control" name="Registration_Date"
-                            placeholder="Created Date" [bsConfig]="datepickerConfig1"
-                            (bsValueChange)="onDateChange($event)" bsDaterangepicker>
-                        <div class="form-right-icon">
-                            <i class="icon-dc-calendar"></i>
-                        </div>
-                    </div>
+                    <select class="form-control" [(ngModel)]="filter.isPublished">
+                        <option [value]="undefined">All Status</option>
+                        <option [value]="true">Published</option>
+                        <option [value]="false">Draft</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -822,11 +122,91 @@
     <div class="offcanvas-footer">
         <div class="row">
             <div class="col-6">
-                <button type="button" class="btn btn-light w-100" data-bs-dismiss="offcanvas">Reset</button>
+                <button type="button" class="btn btn-light w-100" (click)="resetFilter()">Reset</button>
             </div>
             <div class="col-6">
-                <button type="button" class="btn btn-primary w-100" data-bs-dismiss="offcanvas">Submit</button>
+                <button type="button" class="btn btn-primary w-100" (click)="applyFilter()" data-bs-dismiss="offcanvas">Submit</button>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="DeleteBlogModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cancelDelete()"></button>
+            </div>
+            <div class="modal-body text-center pt-0">
+                <div class="mb-4">
+                    <i class="icon-dc-delete text-danger" style="font-size: 4rem;"></i>
+                </div>
+                <h4 class="mb-3">Delete Blog</h4>
+                <p class="text-muted mb-4" *ngIf="blogToDelete">
+                    Are you sure you want to delete the blog <strong>{{ blogToDelete.title }}</strong>?<br>
+                    This action cannot be undone.
+                </p>
+            </div>
+            <div class="modal-footer border-0 justify-content-center">
+                <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal" (click)="cancelDelete()">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="confirmDelete()">
+                    <i class="icon-dc-delete me-1"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+    <div *ngIf="toastMessage" 
+         class="toast show" 
+         [class.bg-success]="toastType === 'success'"
+         [class.bg-danger]="toastType === 'error'"
+         role="alert">
+        <div class="toast-header">
+            <i *ngIf="toastType === 'success'" class="icon-dc-check text-success me-2"></i>
+            <i *ngIf="toastType === 'error'" class="icon-dc-close text-danger me-2"></i>
+            <strong class="me-auto text-white">{{ toastType === 'success' ? 'Success' : 'Error' }}</strong>
+        </div>
+        <div class="toast-body text-white">
+            {{ toastMessage }}
+        </div>
+    </div>
+</div>
+
+<style>
+.toast-container .toast {
+    min-width: 300px;
+    animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toast.bg-success {
+    background-color: #28a745 !important;
+    border-color: #28a745;
+}
+
+.toast.bg-danger {
+    background-color: #dc3545 !important;
+    border-color: #dc3545;
+}
+
+.toast-header {
+    background-color: rgba(0,0,0,0.1) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+</style>

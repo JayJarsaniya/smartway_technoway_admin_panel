@@ -151,6 +151,27 @@ export interface TestimonialFilter {
   rating?: number;
 }
 
+export interface Blog {
+  _id: string;
+  title: string;
+  slug: string;
+  content: string;
+  image: string;
+  isPublished: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface BlogResponse {
+  success: boolean;
+  data: Blog[];
+}
+
+export interface BlogFilter {
+  title?: string;
+  isPublished?: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -190,5 +211,63 @@ export class TestimonialService {
 
   deleteTestimonial(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/testimonials/delete/${id}`);
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class BlogService {
+  private apiUrl = environment.apiUrl;
+
+  constructor(private http: HttpClient) { }
+
+  getBlogs(filter?: BlogFilter): Observable<BlogResponse> {
+    return this.http.get<BlogResponse>(`${this.apiUrl}/blogs`).pipe(
+      map((response: BlogResponse) => {
+        if (!filter || (!filter.title && filter.isPublished === undefined)) {
+          return response;
+        }
+        
+        const filteredData = response.data.filter(blog => {
+          const titleMatch = !filter.title || 
+            blog.title.toLowerCase().includes(filter.title.toLowerCase());
+          const publishedMatch = filter.isPublished === undefined || blog.isPublished === filter.isPublished;
+          return titleMatch && publishedMatch;
+        });
+        
+        return { ...response, data: filteredData };
+      })
+    );
+  }
+
+  getBlogById(id: string): Observable<any> {
+    // First try by ID, if that fails the component will try by slug
+    return this.http.get(`${this.apiUrl}/blogs/id/${id}`);
+  }
+
+  getBlogBySlug(slug: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/blogs/${slug}`);
+  }
+
+  createBlog(blogData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/blogs/create`, blogData);
+  }
+
+  updateBlog(id: string, blogData: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}/blogs/update/${id}`, blogData);
+  }
+
+  deleteBlog(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/blogs/delete/${id}`);
+  }
+
+  generateSlug(title: string): string {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9 -]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim();
   }
 }

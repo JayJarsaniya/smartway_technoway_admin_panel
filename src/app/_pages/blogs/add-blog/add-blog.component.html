@@ -1,6 +1,9 @@
 <div class="row align-items-center justify-content-between">
     <div class="col-auto">
-        <div class="page-header-name">Blogs List</div>
+        <button type="button" class="bg-transparent me-2" style="border: none;" (click)="goBack()">
+            <i class="fa-solid fa-arrow-left" style="font-size: 20px;"></i> 
+        </button>
+        <div class="page-header-name d-inline">{{ isEditMode ? 'Edit Blog' : 'Add Blog' }}</div>
     </div>
 </div>
 
@@ -16,74 +19,39 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-12 col-md-6 col-lg-6">
+                    <div class="col-12">
                         <div class="form-group">
                             <div class="form-group-label">Blog Title<span class="required-field-star">*</span></div>
-                            <input type="text" class="form-control" placeholder="Enter Blog Title" autocomplete="off">
+                            <input type="text" class="form-control" [(ngModel)]="blogForm.title" placeholder="Enter Blog Title" autocomplete="off">
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 col-lg-6">
+                    <div class="col-12">
                         <div class="form-group">
-                            <div class="form-group-label">Blog Categories<span class="required-field-star">*</span>
-                            </div>
-                            <ng-select class="ng-select-custom" [clearable]="false" [(ngModel)]="SelectOption_2"
-                                [multiple]="true" name="SelectOption2" placeholder="Select Blog Categories">
-                                <ng-option *ngFor="let BT of SelectOption2" [value]="BT.value">{{BT.label}}</ng-option>
-                            </ng-select>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-6">
-                        <div class="form-group">
-                            <div class="form-group-label">Blog Tags<span class="required-field-star">*</span></div>
-                            <ng-select class="ng-select-custom" [clearable]="false" [(ngModel)]="SelectOption"
-                                [multiple]="true" name="SelectOption2" placeholder="Select Blog Tags">
-                                <ng-option *ngFor="let BT of SelectOption1" [value]="BT.value">{{BT.label}}</ng-option>
-                            </ng-select>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-6">
-                        <div class="form-group">
-                            <div class="form-group-label">Author Name<span class="required-field-star">*</span></div>
-                            <input type="text" class="form-control" placeholder="Enter Author Name" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-6">
-                        <div class="form-group">
-                            <div class="form-group-label">Small Description<span class="required-field-star">*</span>
-                            </div>
-                            <textarea rows="5" class="form-control h-auto" placeholder="Enter Small Description"
-                                autocomplete="off"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-6">
-                        <div class="form-group">
-                            <div class="form-group-label">Author Description<span class="required-field-star">*</span>
-                            </div>
-                            <textarea rows="5" class="form-control h-auto" placeholder="Enter Author Description"
-                                autocomplete="off"></textarea>
+                            <div class="form-group-label">Status</div>
+                            <select class="form-control" [(ngModel)]="blogForm.isPublished">
+                                <option [value]="true">Published</option>
+                                <option [value]="false">Draft</option>
+                            </select>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <div class="form-group-label">Blog Description<span class="required-field-star">*</span>
-                            </div>
+                            <div class="form-group-label">Blog Content<span class="required-field-star">*</span></div>
                             <div class="w-100">
-                                <angular-editor [placeholder]="'Enter text here'"
-                                    [(ngModel)]="htmlContent"></angular-editor>
+                                <angular-editor [placeholder]="'Enter blog content here'" [config]="editorConfig" [(ngModel)]="blogForm.content"></angular-editor>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <div class="form-group-label">Blog Image<span class="required-field-star">(Icon Size
-                                1073*520)*</span></div>
+                        <div class="form-group-label">Blog Image<span class="required-field-star">*</span></div>
                     </div>
                     <div class="col-12">
                         <div class="uploader">
-                            <input id="file-upload" type="file" name="fileUpload" accept="image/*" />
+                            <input id="file-upload" type="file" name="image" accept=".jpg,.jpeg,.png,.gif,.webp" (change)="onFileSelected($event)" />
                             <label for="file-upload" id="file-drag">
                                 <img id="file-image" src="#" alt="Preview" class="hidden">
                                 <div id="start">
@@ -100,11 +68,94 @@
     </div>
 </div>
 
-
 <div class="row position-sticky bottom-0">
     <div class="col-12 text-end">
         <div class="bg-white p-2 border-top rounded">
-            <button type="button" class="btn btn-primary px-4 btn-xl">Save Changes</button>
+            <button type="button" class="btn btn-primary px-4 btn-xl" (click)="saveBlog()">{{ isEditMode ? 'Update Blog' : 'Save Blog' }}</button>
         </div>
     </div>
 </div>
+
+<!-- Toast Notification -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+    <div *ngIf="toastMessage" 
+         class="toast show" 
+         [class.bg-success]="toastType === 'success'"
+         [class.bg-danger]="toastType === 'error'"
+         role="alert">
+        <div class="toast-header">
+            <i *ngIf="toastType === 'success'" class="icon-dc-check text-success me-2"></i>
+            <i *ngIf="toastType === 'error'" class="icon-dc-close text-danger me-2"></i>
+            <strong class="me-auto text-white">{{ toastType === 'success' ? 'Success' : 'Error' }}</strong>
+        </div>
+        <div class="toast-body text-white">
+            {{ toastMessage }}
+        </div>
+    </div>
+</div>
+
+<style>
+.toast-container .toast {
+    min-width: 300px;
+    animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toast.bg-success {
+    background-color: #28a745 !important;
+    border-color: #28a745;
+}
+
+.toast.bg-danger {
+    background-color: #dc3545 !important;
+    border-color: #dc3545;
+}
+
+.toast-header {
+    background-color: rgba(0,0,0,0.1) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.uploader {
+    width: 100%;
+    height: 200px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.uploader input[type=file] {
+    display: none;
+}
+
+.uploader label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    cursor: pointer;
+}
+
+.uploader img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.hidden {
+    display: none;
+}
+</style>
