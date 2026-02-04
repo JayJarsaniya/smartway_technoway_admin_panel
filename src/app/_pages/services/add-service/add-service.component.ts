@@ -98,6 +98,28 @@ export class AddServiceComponent implements OnInit {
     }
   }
 
+  onServiceIconFileSelect(event: any, index: number): void {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.service.servicesOverview!.services[index].icon = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onStepIconFileSelect(event: any, index: number): void {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.service.processSection!.steps[index].icon = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   onSubmit(): void {
     this.loading = true;
     
