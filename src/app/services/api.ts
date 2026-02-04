@@ -68,15 +68,15 @@ export class ContactService {
         if (!filter || (!filter.name && !filter.email)) {
           return response;
         }
-        
+
         const filteredData = response.data.filter(contact => {
-          const nameMatch = !filter.name || 
+          const nameMatch = !filter.name ||
             `${contact.firstName} ${contact.lastName}`.toLowerCase().includes(filter.name.toLowerCase());
-          const emailMatch = !filter.email || 
+          const emailMatch = !filter.email ||
             contact.email.toLowerCase().includes(filter.email.toLowerCase());
           return nameMatch && emailMatch;
         });
-        
+
         return { ...response, data: filteredData };
       })
     );
@@ -97,17 +97,17 @@ export class JobService {
         if (!filter || (!filter.title && !filter.location && !filter.jobType)) {
           return response;
         }
-        
+
         const filteredData = response.data.filter(job => {
-          const titleMatch = !filter.title || 
+          const titleMatch = !filter.title ||
             job.title.toLowerCase().includes(filter.title.toLowerCase());
-          const locationMatch = !filter.location || 
+          const locationMatch = !filter.location ||
             job.location.toLowerCase().includes(filter.location.toLowerCase());
-          const jobTypeMatch = !filter.jobType || 
+          const jobTypeMatch = !filter.jobType ||
             job.jobType.toLowerCase().includes(filter.jobType.toLowerCase());
           return titleMatch && locationMatch && jobTypeMatch;
         });
-        
+
         return { ...response, data: filteredData };
       })
     );
@@ -251,16 +251,16 @@ export class TestimonialService {
         if (!filter || (!filter.name && !filter.designation && !filter.rating)) {
           return response;
         }
-        
+
         const filteredData = response.data.filter(testimonial => {
-          const nameMatch = !filter.name || 
+          const nameMatch = !filter.name ||
             testimonial.name.toLowerCase().includes(filter.name.toLowerCase());
-          const designationMatch = !filter.designation || 
+          const designationMatch = !filter.designation ||
             testimonial.designation.toLowerCase().includes(filter.designation.toLowerCase());
           const ratingMatch = !filter.rating || testimonial.rating === filter.rating;
           return nameMatch && designationMatch && ratingMatch;
         });
-        
+
         return { ...response, data: filteredData };
       })
     );
@@ -293,14 +293,14 @@ export class BlogService {
         if (!filter || (!filter.title && filter.isPublished === undefined)) {
           return response;
         }
-        
+
         const filteredData = response.data.filter(blog => {
-          const titleMatch = !filter.title || 
+          const titleMatch = !filter.title ||
             blog.title.toLowerCase().includes(filter.title.toLowerCase());
           const publishedMatch = filter.isPublished === undefined || blog.isPublished === filter.isPublished;
           return titleMatch && publishedMatch;
         });
-        
+
         return { ...response, data: filteredData };
       })
     );
@@ -351,14 +351,14 @@ export class ServiceService {
         if (!filter || (!filter.title && !filter.status)) {
           return response;
         }
-        
+
         const filteredData = response.data.filter(service => {
-          const titleMatch = !filter.title || 
+          const titleMatch = !filter.title ||
             service.title.toLowerCase().includes(filter.title.toLowerCase());
           const statusMatch = !filter.status || service.status === filter.status;
           return titleMatch && statusMatch;
         });
-        
+
         return { ...response, data: filteredData };
       })
     );
@@ -376,16 +376,20 @@ export class ServiceService {
     return this.http.post(`${this.apiUrl}/services/create`, service);
   }
 
+  createServiceWithFiles(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/services/create`, formData);
+  }
+
   updateService(id: string, service: Partial<Service>): Observable<any> {
     return this.http.put(`${this.apiUrl}/services/update/${id}`, service);
   }
 
-  deleteService(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/services/delete/${id}`);
+  updateServiceWithFiles(id: string, formData: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}/services/update/${id}`, formData);
   }
 
-  uploadFile(formData: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}/upload`, formData);
+  deleteService(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/services/delete/${id}`);
   }
 
   generateSlug(title: string): string {
@@ -412,14 +416,14 @@ export class SkillService {
         if (!filter || (!filter.title && filter.status === undefined)) {
           return response;
         }
-        
+
         const filteredData = response.data.filter(skill => {
-          const titleMatch = !filter.title || 
+          const titleMatch = !filter.title ||
             skill.title.toLowerCase().includes(filter.title.toLowerCase());
           const statusMatch = filter.status === undefined || skill.status === filter.status;
           return titleMatch && statusMatch;
         });
-        
+
         return { ...response, data: filteredData };
       })
     );
