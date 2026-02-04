@@ -6,22 +6,20 @@
 
 <form (ngSubmit)="onSubmit()" #serviceForm="ngForm">
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 mb-4">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-group-label">Service Title *</label>
-                                <input type="text" class="form-control" [(ngModel)]="service.title" 
-                                       name="title" required (input)="onTitleChange()">
+                                <input type="text" class="form-control" [(ngModel)]="service.title" name="title" required (input)="onTitleChange()">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-group-label">Slug *</label>
-                                <input type="text" class="form-control" [(ngModel)]="service.slug" 
-                                       name="slug" required readonly>
+                                <input type="text" class="form-control" [(ngModel)]="service.slug" name="slug" required readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -39,7 +37,7 @@
         </div>
 
         <!-- Card Section -->
-        <div class="col-12">
+        <div class="col-12 mb-4">
             <div class="card">
                 <div class="card-header mt-3">
                     <h5>Card Information</h5>
@@ -49,15 +47,13 @@
                         <div class="col-md-8">
                             <div class="form-group">
                                 <label class="form-group-label">Short Description *</label>
-                                <textarea class="form-control" rows="3" [(ngModel)]="service.card!.shortDescription" 
-                                          name="shortDescription" required></textarea>
+                                <textarea class="form-control" rows="3" [(ngModel)]="service.card!.shortDescription" name="shortDescription" required></textarea>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-group-label">Icon URL *</label>
-                                <input type="url" class="form-control" [(ngModel)]="service.card!.icon" 
-                                       name="icon" required>
+                                <input type="url" class="form-control" [(ngModel)]="service.card!.icon" name="icon" required>
                             </div>
                         </div>
                     </div>
@@ -66,7 +62,7 @@
         </div>
 
         <!-- Hero Section -->
-        <div class="col-12">
+        <div class="col-12 mb-4">
             <div class="card">
                 <div class="card-header mt-3">
                     <h5>Hero Section</h5>
@@ -76,15 +72,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-group-label">Headline *</label>
-                                <input type="text" class="form-control" [(ngModel)]="service.heroSection!.headline" 
-                                       name="headline" required>
+                                <input type="text" class="form-control" [(ngModel)]="service.heroSection!.headline" name="headline" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-group-label">Sub Headline *</label>
-                                <input type="text" class="form-control" [(ngModel)]="service.heroSection!.subHeadline" 
-                                       name="subHeadline" required>
+                                <input type="text" class="form-control" [(ngModel)]="service.heroSection!.subHeadline" name="subHeadline" required>
                             </div>
                         </div>
                     </div>
@@ -93,7 +87,7 @@
         </div>
 
         <!-- Services Overview -->
-        <div class="col-12">
+        <div class="col-12 mb-4">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5>Services Overview</h5>
@@ -106,19 +100,17 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-group-label">Overview Title *</label>
-                                <input type="text" class="form-control" [(ngModel)]="service.servicesOverview!.title" 
-                                       name="overviewTitle" required>
+                                <input type="text" class="form-control" [(ngModel)]="service.servicesOverview!.title" name="overviewTitle" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-group-label">Overview Description *</label>
-                                <input type="text" class="form-control" [(ngModel)]="service.servicesOverview!.description" 
-                                       name="overviewDescription" required>
+                                <input type="text" class="form-control" [(ngModel)]="service.servicesOverview!.description" name="overviewDescription" required>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div *ngFor="let svc of service.servicesOverview!.services; let i = index" class="border p-3 mb-3">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <h6>Service {{ i + 1 }}</h6>
@@ -130,22 +122,19 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="form-group-label">Title</label>
-                                    <input type="text" class="form-control" [(ngModel)]="svc.title" 
-                                           [name]="'serviceTitle' + i">
+                                    <input type="text" class="form-control" [(ngModel)]="svc.title" [name]="'serviceTitle' + i">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="form-group-label">Description</label>
-                                    <input type="text" class="form-control" [(ngModel)]="svc.description" 
-                                           [name]="'serviceDesc' + i">
+                                    <input type="text" class="form-control" [(ngModel)]="svc.description" [name]="'serviceDesc' + i">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="form-group-label">Icon URL</label>
-                                    <input type="url" class="form-control" [(ngModel)]="svc.icon" 
-                                           [name]="'serviceIcon' + i">
+                                    <input type="url" class="form-control" [(ngModel)]="svc.icon" [name]="'serviceIcon' + i">
                                 </div>
                             </div>
                         </div>
@@ -155,7 +144,7 @@
         </div>
 
         <!-- Process Section -->
-        <div class="col-12">
+        <div class="col-12 mb-4">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5>Process Section</h5>
@@ -168,12 +157,11 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="form-group-label">Process Title *</label>
-                                <input type="text" class="form-control" [(ngModel)]="service.processSection!.title" 
-                                       name="processTitle" required>
+                                <input type="text" class="form-control" [(ngModel)]="service.processSection!.title" name="processTitle" required>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div *ngFor="let step of service.processSection!.steps; let i = index" class="border p-3 mb-3">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <h6>Step {{ step.step }}</h6>
@@ -185,15 +173,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-group-label">Title</label>
-                                    <input type="text" class="form-control" [(ngModel)]="step.title" 
-                                           [name]="'stepTitle' + i">
+                                    <input type="text" class="form-control" [(ngModel)]="step.title" [name]="'stepTitle' + i">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-group-label">Icon URL</label>
-                                    <input type="url" class="form-control" [(ngModel)]="step.icon" 
-                                           [name]="'stepIcon' + i">
+                                    <input type="url" class="form-control" [(ngModel)]="step.icon" [name]="'stepIcon' + i">
                                 </div>
                             </div>
                         </div>
@@ -218,11 +204,7 @@
 
 <!-- Toast Notification -->
 <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
-    <div *ngIf="toastMessage" 
-         class="toast show" 
-         [class.bg-success]="toastType === 'success'"
-         [class.bg-danger]="toastType === 'error'"
-         role="alert">
+    <div *ngIf="toastMessage" class="toast show" [class.bg-success]="toastType === 'success'" [class.bg-danger]="toastType === 'error'" role="alert">
         <div class="toast-header">
             <i *ngIf="toastType === 'success'" class="icon-dc-check text-success me-2"></i>
             <i *ngIf="toastType === 'error'" class="icon-dc-close text-danger me-2"></i>
