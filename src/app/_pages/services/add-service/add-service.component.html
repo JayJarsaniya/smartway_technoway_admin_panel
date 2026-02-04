@@ -53,17 +53,10 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-group-label">Icon URL *</label>
-<<<<<<< HEAD
-                                <input type="url" class="form-control" [(ngModel)]="service.card!.icon" name="icon" required>
-=======
-                                <input type="url" class="form-control mb-2" [(ngModel)]="service.card!.icon" 
-                                       name="icon" required placeholder="Enter icon URL">
                                 <div class="d-flex align-items-center">
-                                    <span class="me-2">Or</span>
-                                    <input type="file" class="form-control" accept="image/*" 
-                                           (change)="onIconFileSelect($event)" #iconFileInput>
+                                    <input type="file" class="form-control" accept="image/*" (change)="onIconFileSelect($event)" #iconFileInput>
                                 </div>
->>>>>>> dc23113476381e34ebb08c71c1b9e185cada6a83
+
                             </div>
                         </div>
                     </div>
