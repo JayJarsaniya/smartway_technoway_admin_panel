@@ -376,20 +376,16 @@ export class ServiceService {
     return this.http.post(`${this.apiUrl}/services/create`, service);
   }
 
-  createServiceWithFiles(formData: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}/services/create`, formData);
-  }
-
   updateService(id: string, service: Partial<Service>): Observable<any> {
     return this.http.put(`${this.apiUrl}/services/update/${id}`, service);
   }
 
-  updateServiceWithFiles(id: string, formData: FormData): Observable<any> {
-    return this.http.put(`${this.apiUrl}/services/update/${id}`, formData);
-  }
-
   deleteService(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/services/delete/${id}`);
+  }
+
+  uploadFile(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/upload`, formData);
   }
 
   generateSlug(title: string): string {

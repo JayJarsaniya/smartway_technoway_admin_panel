@@ -21,11 +21,6 @@ export class AddServiceComponent implements OnInit {
   loading = false;
   toastMessage = '';
   toastType: 'success' | 'error' | '' = '';
-  
-  // File objects for binary upload
-  iconFile: File | null = null;
-  serviceIconFiles: { [key: number]: File } = {};
-  stepIconFiles: { [key: number]: File } = {};
 
   constructor(
     private serviceService: ServiceService,
@@ -95,52 +90,59 @@ export class AddServiceComponent implements OnInit {
   onIconFileSelect(event: any): void {
     const file = event.target.files[0];
     if (file) {
-      this.iconFile = file;
-      this.service.card!.icon = file.name;
+      this.uploadToS3(file).then(url => {
+        this.service.card!.icon = url;
+      }).catch(error => {
+        this.showToast('Error uploading icon', 'error');
+      });
     }
   }
 
   onServiceIconFileSelect(event: any, index: number): void {
     const file = event.target.files[0];
     if (file) {
-      this.serviceIconFiles[index] = file;
-      this.service.servicesOverview!.services[index].icon = file.name;
+      this.uploadToS3(file).then(url => {
+        this.service.servicesOverview!.services[index].icon = url;
+      }).catch(error => {
+        this.showToast('Error uploading service icon', 'error');
+      });
     }
   }
 
   onStepIconFileSelect(event: any, index: number): void {
     const file = event.target.files[0];
     if (file) {
-      this.stepIconFiles[index] = file;
-      this.service.processSection!.steps[index].icon = file.name;
+      this.uploadToS3(file).then(url => {
+        this.service.processSection!.steps[index].icon = url;
+      }).catch(error => {
+        this.showToast('Error uploading step icon', 'error');
+      });
     }
+  }
+
+  private uploadToS3(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      this.serviceService.uploadFile(formData).subscribe({
+        next: (response) => {
+          if (response.success) {
+            resolve(response.url);
+          } else {
+            reject(response.message);
+          }
+        },
+        error: (error) => reject(error)
+      });
+    });
   }
 
   onSubmit(): void {
     this.loading = true;
     
-    const formData = new FormData();
-    
-    // Add service data
-    formData.append('serviceData', JSON.stringify(this.service));
-    
-    // Add icon files
-    if (this.iconFile) {
-      formData.append('iconFile', this.iconFile);
-    }
-    
-    // Add service icon files
-    Object.keys(this.serviceIconFiles).forEach(key => {
-      formData.append(`serviceIcon_${key}`, this.serviceIconFiles[+key]);
-    });
-    
-    // Add step icon files
-    Object.keys(this.stepIconFiles).forEach(key => {
-      formData.append(`stepIcon_${key}`, this.stepIconFiles[+key]);
-    });
-    
     if (this.isEditMode) {
-      this.serviceService.updateServiceWithFiles(this.service._id!, formData).subscribe({
+      this.serviceService.updateService(this.service._id!, this.service).subscribe({
         next: () => {
           this.showToast('Service updated successfully', 'success');
           setTimeout(() => this.router.navigate(['/services/service-list']), 1500);
@@ -151,7 +153,7 @@ export class AddServiceComponent implements OnInit {
         }
       });
     } else {
-      this.serviceService.createServiceWithFiles(formData).subscribe({
+      this.serviceService.createService(this.service).subscribe({
         next: () => {
           this.showToast('Service created successfully', 'success');
           setTimeout(() => this.router.navigate(['/services/service-list']), 1500);
