@@ -53,7 +53,13 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-group-label">Card Icon</label>
-                                <input type="file" class="form-control" accept="image/*" (change)="onCardIconFileSelect($event)">
+                                <input type="file" class="form-control" accept="image/*" (change)="onCardIconFileSelect($event)" #cardIconInput>
+                                <div *ngIf="cardIconPreview" class="mt-2 position-relative d-inline-block">
+                                    <img [src]="cardIconPreview" alt="Card Icon" style="width: 100px; height: 100px; object-fit: cover;">
+                                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0" (click)="removeCardIcon(); cardIconInput.value=''" style="padding: 2px 6px;">
+                                        <i class="icon-dc-close"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -134,7 +140,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="form-group-label">Service Icon</label>
-                                    <input type="file" class="form-control" accept="image/*" (change)="onServiceIconFileSelect($event, i)">
+                                    <input type="file" class="form-control" accept="image/*" (change)="onServiceIconFileSelect($event, i)" #serviceIconInput>
+                                    <div *ngIf="serviceIconPreviews[i]" class="mt-2 position-relative d-inline-block">
+                                        <img [src]="serviceIconPreviews[i]" alt="Service Icon" style="width: 80px; height: 80px; object-fit: cover;">
+                                        <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0" (click)="removeServiceIcon(i); serviceIconInput.value=''" style="padding: 2px 6px;">
+                                            <i class="icon-dc-close"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -179,7 +191,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-group-label">Step Icon</label>
-                                    <input type="file" class="form-control" accept="image/*" (change)="onStepIconFileSelect($event, i)">
+                                    <input type="file" class="form-control" accept="image/*" (change)="onStepIconFileSelect($event, i)" #stepIconInput>
+                                    <div *ngIf="stepIconPreviews[i]" class="mt-2 position-relative d-inline-block">
+                                        <img [src]="stepIconPreviews[i]" alt="Step Icon" style="width: 80px; height: 80px; object-fit: cover;">
+                                        <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0" (click)="removeStepIcon(i); stepIconInput.value=''" style="padding: 2px 6px;">
+                                            <i class="icon-dc-close"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

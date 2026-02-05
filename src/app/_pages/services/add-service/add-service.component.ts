@@ -24,8 +24,11 @@ export class AddServiceComponent implements OnInit {
   
   // File storage
   cardIconFile: File | null = null;
+  cardIconPreview: string = '';
   serviceIconFiles: { [key: number]: File } = {};
+  serviceIconPreviews: { [key: number]: string } = {};
   stepIconFiles: { [key: number]: File } = {};
+  stepIconPreviews: { [key: number]: string } = {};
 
   constructor(
     private serviceService: ServiceService,
@@ -47,6 +50,15 @@ export class AddServiceComponent implements OnInit {
       next: (response) => {
         if (response.success) {
           this.service = response.data;
+          if (this.service.card?.icon) {
+            this.cardIconPreview = this.service.card.icon;
+          }
+          this.service.servicesOverview?.services.forEach((svc, i) => {
+            if (svc.icon) this.serviceIconPreviews[i] = svc.icon;
+          });
+          this.service.processSection?.steps.forEach((step, i) => {
+            if (step.icon) this.stepIconPreviews[i] = step.icon;
+          });
         }
         this.loading = false;
       },
@@ -98,21 +110,54 @@ export class AddServiceComponent implements OnInit {
     const file = event.target.files[0];
     if (file) {
       this.cardIconFile = file;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.cardIconPreview = e.target.result;
+      };
+      reader.readAsDataURL(file);
     }
+  }
+
+  removeCardIcon(): void {
+    this.cardIconFile = null;
+    this.cardIconPreview = '';
+    this.service.card!.icon = '';
   }
 
   onServiceIconFileSelect(event: any, index: number): void {
     const file = event.target.files[0];
     if (file) {
       this.serviceIconFiles[index] = file;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.serviceIconPreviews[index] = e.target.result;
+      };
+      reader.readAsDataURL(file);
     }
+  }
+
+  removeServiceIcon(index: number): void {
+    delete this.serviceIconFiles[index];
+    delete this.serviceIconPreviews[index];
+    this.service.servicesOverview!.services[index].icon = '';
   }
 
   onStepIconFileSelect(event: any, index: number): void {
     const file = event.target.files[0];
     if (file) {
       this.stepIconFiles[index] = file;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.stepIconPreviews[index] = e.target.result;
+      };
+      reader.readAsDataURL(file);
     }
+  }
+
+  removeStepIcon(index: number): void {
+    delete this.stepIconFiles[index];
+    delete this.stepIconPreviews[index];
+    this.service.processSection!.steps[index].icon = '';
   }
 
   private createFormData(): FormData {
