@@ -52,11 +52,8 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-group-label">Icon URL *</label>
-                                <div class="d-flex align-items-center">
-                                    <input type="file" class="form-control" accept="image/*" (change)="onIconFileSelect($event)" #iconFileInput>
-                                </div>
-
+                                <label class="form-group-label">Card Icon</label>
+                                <input type="file" class="form-control" accept="image/*" (change)="onCardIconFileSelect($event)">
                             </div>
                         </div>
                     </div>
@@ -136,10 +133,8 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label class="form-group-label">Icon URL</label>
-                                    <div class="d-flex align-items-center">
-                                        <input type="file" class="form-control" accept="image/*" (change)="onServiceIconFileSelect($event, i)">
-                                    </div>
+                                    <label class="form-group-label">Service Icon</label>
+                                    <input type="file" class="form-control" accept="image/*" (change)="onServiceIconFileSelect($event, i)">
                                 </div>
                             </div>
                         </div>
@@ -183,10 +178,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-group-label">Icon URL</label>
-                                    <div class="d-flex align-items-center">
-                                        <input type="file" class="form-control" accept="image/*" (change)="onStepIconFileSelect($event, i)">
-                                    </div>
+                                    <label class="form-group-label">Step Icon</label>
+                                    <input type="file" class="form-control" accept="image/*" (change)="onStepIconFileSelect($event, i)">
                                 </div>
                             </div>
                         </div>

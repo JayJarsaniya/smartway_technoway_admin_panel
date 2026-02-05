@@ -21,6 +21,11 @@ export class AddServiceComponent implements OnInit {
   loading = false;
   toastMessage = '';
   toastType: 'success' | 'error' | '' = '';
+  
+  // File storage
+  cardIconFile: File | null = null;
+  serviceIconFiles: { [key: number]: File } = {};
+  stepIconFiles: { [key: number]: File } = {};
 
   constructor(
     private serviceService: ServiceService,
@@ -68,6 +73,7 @@ export class AddServiceComponent implements OnInit {
 
   removeService(index: number): void {
     this.service.servicesOverview!.services.splice(index, 1);
+    delete this.serviceIconFiles[index];
   }
 
   addStep(): void {
@@ -81,50 +87,108 @@ export class AddServiceComponent implements OnInit {
 
   removeStep(index: number): void {
     this.service.processSection!.steps.splice(index, 1);
+    delete this.stepIconFiles[index];
     // Renumber steps
     this.service.processSection!.steps.forEach((step, i) => {
       step.step = i + 1;
     });
   }
 
-  onIconFileSelect(event: any): void {
+  onCardIconFileSelect(event: any): void {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.service.card!.icon = e.target.result;
-      };
-      reader.readAsDataURL(file);
+      this.cardIconFile = file;
     }
   }
 
   onServiceIconFileSelect(event: any, index: number): void {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.service.servicesOverview!.services[index].icon = e.target.result;
-      };
-      reader.readAsDataURL(file);
+      this.serviceIconFiles[index] = file;
     }
   }
 
   onStepIconFileSelect(event: any, index: number): void {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.service.processSection!.steps[index].icon = e.target.result;
-      };
-      reader.readAsDataURL(file);
+      this.stepIconFiles[index] = file;
     }
+  }
+
+  private createFormData(): FormData {
+    const formData = new FormData();
+    
+    // Add required fields
+    formData.append('title', this.service.title || '');
+    formData.append('slug', this.service.slug || '');
+    
+    // Add card fields with bracket notation
+    if (this.service.card?.shortDescription) {
+      formData.append('card[shortDescription]', this.service.card.shortDescription);
+    }
+    
+    // Add hero section fields with bracket notation
+    if (this.service.heroSection?.headline) {
+      formData.append('heroSection[headline]', this.service.heroSection.headline);
+    }
+    if (this.service.heroSection?.subHeadline) {
+      formData.append('heroSection[subHeadline]', this.service.heroSection.subHeadline);
+    }
+    
+    // Add services overview fields with bracket notation
+    if (this.service.servicesOverview?.title) {
+      formData.append('servicesOverview[title]', this.service.servicesOverview.title);
+    }
+    if (this.service.servicesOverview?.description) {
+      formData.append('servicesOverview[description]', this.service.servicesOverview.description);
+    }
+    
+    // Add services array items
+    if (this.service.servicesOverview?.services && this.service.servicesOverview.services.length > 0) {
+      this.service.servicesOverview.services.forEach((service, index) => {
+        formData.append(`servicesOverview[services][${index}][id]`, service.title.toLowerCase().replace(/\s+/g, '-'));
+        formData.append(`servicesOverview[services][${index}][title]`, service.title);
+        formData.append(`servicesOverview[services][${index}][description]`, service.description);
+        formData.append(`servicesOverview[services][${index}][icon]`, service.icon || '');
+      });
+    }
+    
+    // Add process section fields with bracket notation
+    if (this.service.processSection?.title) {
+      formData.append('processSection[title]', this.service.processSection.title);
+    }
+    
+    // Add steps array items
+    if (this.service.processSection?.steps && this.service.processSection.steps.length > 0) {
+      this.service.processSection.steps.forEach((step, index) => {
+        formData.append(`processSection[steps][${index}][step]`, step.step.toString());
+        formData.append(`processSection[steps][${index}][title]`, step.title);
+        formData.append(`processSection[steps][${index}][icon]`, step.icon || '');
+      });
+    }
+    
+    // Add file fields
+    if (this.cardIconFile) {
+      formData.append('cardIcon', this.cardIconFile);
+    }
+    
+    Object.keys(this.serviceIconFiles).forEach(index => {
+      formData.append(`serviceIcon${index}`, this.serviceIconFiles[+index]);
+    });
+    
+    Object.keys(this.stepIconFiles).forEach(index => {
+      formData.append(`stepIcon${index}`, this.stepIconFiles[+index]);
+    });
+    
+    return formData;
   }
 
   onSubmit(): void {
     this.loading = true;
+    const formData = this.createFormData();
 
     if (this.isEditMode) {
-      this.serviceService.updateService(this.service._id!, this.service).subscribe({
+      this.serviceService.updateService(this.service._id!, formData).subscribe({
         next: () => {
           this.showToast('Service updated successfully', 'success');
           setTimeout(() => this.router.navigate(['/services/service-list']), 1500);
@@ -135,7 +199,7 @@ export class AddServiceComponent implements OnInit {
         }
       });
     } else {
-      this.serviceService.createService(this.service).subscribe({
+      this.serviceService.createService(formData).subscribe({
         next: () => {
           this.showToast('Service created successfully', 'success');
           setTimeout(() => this.router.navigate(['/services/service-list']), 1500);

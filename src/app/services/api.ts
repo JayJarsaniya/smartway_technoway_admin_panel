@@ -372,12 +372,12 @@ export class ServiceService {
     return this.http.get(`${this.apiUrl}/services/${slug}`);
   }
 
-  createService(service: Partial<Service>): Observable<any> {
-    return this.http.post(`${this.apiUrl}/services/create`, service);
+  createService(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/services/create`, formData);
   }
 
-  updateService(id: string, service: Partial<Service>): Observable<any> {
-    return this.http.put(`${this.apiUrl}/services/update/${id}`, service);
+  updateService(id: string, formData: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}/services/update/${id}`, formData);
   }
 
   deleteService(id: string): Observable<any> {
